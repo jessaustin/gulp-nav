@@ -3,17 +3,20 @@
   "version": 0,
   "description": "A gulp plugin to help build navigation elements",
   "author": "Jess Austin <jess.austin@gmail.com>",
-  "repository": "jessaustin/gulp-nav",
-  "main": "gulp-nav.js",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/jessaustin/gulp-nav.git"
+  },
   "dependencies": {
-    "gulp-filetree":    "^0.0.3",
-    "map-stream":       "^0.1.0"
-  }
+    "gulp-filetree":    ">=0.0.3",
+    "map-stream":       ">=0.1"
+  },
   "devDependencies": {
-    "coffee-script":    "^1.7.1",
+    "coffee-script":    ">=1.7"
   },
+  "main": "gulp-nav.js",
   "scripts": {
-    "postinstall": "node_modules/.bin/bower install"
-  },
-  "license": "MIT"
+    "prepublish": "coffee -c gulp-nav.coffee"
+  }
 }
