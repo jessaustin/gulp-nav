@@ -1,0 +1,19 @@
+{
+  "name": "gulp-nav",
+  "version": 0,
+  "description": "A gulp plugin to help build navigation elements",
+  "author": "Jess Austin <jess.austin@gmail.com>",
+  "repository": "jessaustin/gulp-nav",
+  "main": "gulp-nav.js",
+  "dependencies": {
+    "gulp-filetree":    "^0.0.3",
+    "map-stream":       "^0.1.0"
+  }
+  "devDependencies": {
+    "coffee-script":    "^1.7.1",
+  },
+  "scripts": {
+    "postinstall": "node_modules/.bin/bower install"
+  },
+  "license": "MIT"
+}
