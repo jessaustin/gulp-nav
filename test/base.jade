@@ -1,0 +1,16 @@
+- var short_title = 'Home', order = 0
+doctype html
+html(lang='en')
+  meta(charset='utf-8')
+  link(href='/css/bootstrap.css', rel='stylesheet')
+  .container
+    .row
+      .col-xs-12
+        h1
+      .col-xs-12
+        nav(role='navigation')
+          ul.nav.nav-tabs
+            each leaf in leaves
+              li(class=(leaf.href == href ? 'active' : ''))
+                a(href=leaf.href):= leaf.short
+  script(src='/js/bootstrap.js')
