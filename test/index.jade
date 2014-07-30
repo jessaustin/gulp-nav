@@ -10,7 +10,8 @@ html(lang='en')
       .col-xs-12
         nav(role='navigation')
           ul.nav.nav-tabs
-            each tab in nav
-              li(class=tab.active ? 'active' : '')
-                a(href=tab.href ? tab.href : ''):= tab.short_title
+            if nav
+              each tab in nav
+                li(class=tab.active ? 'active' : '')
+                  a(href=tab.href ? tab.href : ''):= tab.short_title
   script(src='/js/bootstrap.js')
