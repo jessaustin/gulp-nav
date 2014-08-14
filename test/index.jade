@@ -1,4 +1,4 @@
-- var short_title = 'Home', order = 0
+- var short_title = 'Home', order = 0;
 doctype html
 html(lang='en')
   meta(charset='utf-8')
@@ -8,19 +8,15 @@ html(lang='en')
       .col-xs-12
         h1=short_title
       .col-xs-12
-        p =nav.title
         nav(role='navigation')
           ul.nav.nav-tabs
-            if nav.siblings
-              - console.log('nav', nav.title, nav.parent && nav.parent.title, nav.siblings)
-              each tab in nav.siblings
-                li
+            | parent:
+            = nav.parent
+            - console.log(nav.parent);
+            // if nav?.siblings
+            //   - console.log('nav', nav.title, nav.parent && nav.parent.title, nav.siblings);
+            //   each tab in nav.siblings
+            //     li
                   // (class=tab.active ? 'active' : '')
-                  a(href=tab.href ? tab.href : ''):= tab.title
-            if nav.nav.siblings
-              - console.log('nav.nav', nav.nav.title, nav.nav.parent && nav.nav.parent.title, nav.nav.siblings)
-              each tab in nav.nav.siblings
-                li
-                  // (class=tab.active ? 'active' : '')
-                  a(href=tab.href ? tab.href : ''):= tab.title
+            //       a(href=tab.href ? tab.href : ''):= tab.title
   script(src='/js/bootstrap.js')

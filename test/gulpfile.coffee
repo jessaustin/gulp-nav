@@ -1,4 +1,4 @@
-# copyright 2014 Jess Austin <jess.austin@gmail.com>, MIT license
+# copyright (c) 2014 Jess Austin <jess.austin@gmail.com>, MIT license
 
 gulp = require 'gulp'
 coffee = require 'gulp-coffee'
