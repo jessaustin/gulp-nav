@@ -11,7 +11,11 @@ html(lang='en')
         nav(role='navigation')
           ul.nav.nav-tabs
             | parent:
-            - console.log(nav.parent);
+            - console.log(nav.title, nav.href, nav.parent.title, nav.parent.href);
+            for sibling in nav.siblings
+              - console.log('    ', sibling.title, sibling.href, sibling.active)
+            //if nav.parent
+            //  - console.log('parent', nav.parent);
             // if nav?.siblings
             //   - console.log('nav', nav.title, nav.parent && nav.parent.title, nav.siblings);
             //   each tab in nav.siblings

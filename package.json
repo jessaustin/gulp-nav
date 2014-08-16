@@ -20,7 +20,7 @@
   },
   "main": "gulp-nav.js",
   "scripts": {
-    "prepublish": "node_modules/.bin/coffee -c gulp-nav.coffee",
+    "prepublish": "node_modules/.bin/coffee -c gulp-nav.coffee web-path.coffee",
     "pretest": "echo 'pretest'",
     "test": "echo 'test'"
   }

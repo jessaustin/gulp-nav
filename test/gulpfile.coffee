@@ -5,7 +5,7 @@ coffee = require 'gulp-coffee'
 jade = require 'gulp-jade'
 
 gulp.task 'coffee', ->
-  gulp.src '../gulp-nav.coffee'
+  gulp.src '../*.coffee'
     .pipe coffee()
     .pipe gulp.dest '..'
 
