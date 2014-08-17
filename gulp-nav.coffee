@@ -40,90 +40,84 @@ module.exports =
 
     through (file, encoding, transformCallback) ->
       # if vinyl objects have different properties, take first defined
-      source = (file[prop] for prop in sources).reduce (x, y) -> x ?= y
+      source = (file[source] for source in sources).reduce (x, y) -> x ?= y
       source ?= file    # just look for title and order on the vinyl obj itself
-      title = (source[prop] for prop in titles).reduce (x, y) -> x ?= y
-      order = (source[prop] for prop in orders).reduce (x, y) -> x ?= y
+      title = (source[title] for title in titles).reduce (x, y) -> x ?= y
+      order = (source[order] for order in orders).reduce (x, y) -> x ?= y
       # insert new nav into the tree
-      nav = insertNav file.relative, hrefExtension, title, order
+      nav = insertNavIntoTree file.relative, hrefExtension, title, order
       # set properties of vinyl object
-      for prop in []    # XXX use targets!
-        tgt = file
-        for part in (prop.split '.')[...-1]
-          console.log part
-          tgt[part] ?= {}
-          tgt = tgt[part]
-        tgt[(prop.split '.')[-1]] = nav
-      file['data'] =    # XXX use targets!
-        nav: nav
-      file['nav'] = nav
+      for target in targets
+        obj = file
+        [props..., lastProp] = target.split '.'         # handle nested targets
+        obj = obj[prop] ?= {} for prop in props
+        obj[lastProp] = nav
       # delay until we've seen them all...
       files.push file
       transformCallback()
     , (flushCallback) ->
       # ...and now we've seen them all
       @push file for file in files
+      console.log file for file in files
       #console.log (require 'util').inspect navTree, depth: null
       flushCallback()
 
 navTree =
-  exists: no
-  title: null
   parent: null
   children: {}
+  exists: no
+  title: null
 
 orderGen = 9999
 
-insertNav = (relativePath, extension, title, order) ->
+insertNavIntoTree = (relativePath, extension, title, order) ->
   _path = path.resolve '/', relativePath
-    .replace /index\.[^/]+$/, ''
-    .replace /\.[^./]+$/, '.' + extension
-    .split /([^/]*\/)/
+    .replace /index\.[^/]+$/, ''              # index identified with directory
+    .replace /\.[^./]+$/, '.' + extension     # e.g. '.jade' -> '.html'
+    .split /([^/]*\/)/                        # e.g. '/a/b' -> ['/', 'a/', 'b']
     .filter (element) -> element isnt ''
   current = navTree
   for element in _path
     current = current.children[element] ?=   # recurse down, filling in missing
-      children: {}
       parent: current
+      children: {}
       exists: no                             # for directories without an index
       title: path.basename element.replace /\/?index[^/]*$/, ''
         .toLowerCase()
-        .replace /\.[^.]*$/, ''                  # remove extension
-        .replace /(?:^|[-._])[a-z]/g, (first) -> # capitalize words
-          first.toUpperCase()
-        .replace /[-._]/g, ' '                   # change punctuation to spaces
-        .replace /^$/, '/'                       # root needs a title too
+        .replace /\.[^.]*$/, ''                        # remove extension
+        .replace /(?:^|[-._])[a-z]/g, (first) ->
+          first.toUpperCase()                          # capitalize each word
+        .replace /[-._]/g, ' '                         # punctuation to spaces
+        .replace /^$/, '/'                             # root needs a title too
       order: orderGen++
   current.exists = yes                            # this resource *does* exist!
   if title
     current.title = title
   if order
     current.order = order
-  visitednav current, _path
+  navInContext current, _path
 
-# this function creates the objects that we actually put 
-visitednav = (nav, context) ->
+# create nav object with  
+navInContext = (nav, context) ->
   nav and Object.defineProperties
     title: nav.title
     href: if nav.exists
       webPath.relative context[0], webPath.resolve context...
     active: context.length is 1
   ,
-    parent:    # these properties are accessors in order to get lazy evaluation
-      enumerable: yes                 # these properties should be easy to find
-      get: ->
-        #console.log nav.parent, context
-        visitednav nav.parent, context.concat '.'
+    parent:
+      enumerable: yes             # these properties should be easy to find
+      get: ->                     # they're accessors because we need lazy eval
+        navInContext nav.parent, context.concat if context.slice(-1).slice(-1) is '/' then '..' else '.'
     children:
       enumerable: yes
       get: ->
         sorted = ([name, child] for name, child of nav.children)
           .sort ([_, a], [__, b]) ->
             a.order - b.order
-        (for [name, child] in sorted
-          visitednav child, context.concat name + '/')
+        (navInContext child, context.concat name for [name, child] in sorted)
     siblings:
       enumerable: yes
       get: ->
         for name, sibling of nav.parent.children
-          visitednav sibling, context.concat name
+          navInContext sibling, context.concat name
