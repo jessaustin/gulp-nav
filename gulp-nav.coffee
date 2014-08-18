@@ -61,7 +61,6 @@ module.exports =
     , (flushCallback) ->
       # ...and now we've seen them all
       @push file for file in files
-      console.log (require 'util').inspect navTree, depth: null
       flushCallback()
 
 navTree =
@@ -95,10 +94,10 @@ insertNavIntoTree = (relativePath, extension, title, order, root) ->
   current.exists = yes             # if we're here, this resource *does* exist!
   current.title = title if title   # overwrite defaults
   current.order = order if order
-  navInContext current, root, [_path.join '']
+  navInContext current, [_path.join '']
 
 # create nav object with  
-navInContext = (nav, root, context) ->
+navInContext = (nav, context) ->
   if nav
     isDir = context[-1..][0][-1..] is '/'            # is this nav a directory?
     href = webPath.relative context[0], webPath.resolve context...
@@ -110,12 +109,11 @@ navInContext = (nav, root, context) ->
       parent:
         enumerable: yes           # these properties should be easy to find
         get: ->                   # they're accessors because we need lazy eval
-          navInContext nav.parent, root,
-          context.concat if isDir then '..' else '.'
+          navInContext nav.parent, context.concat if isDir then '..' else '.'
       children:
         enumerable: yes
         get: ->
-          (navInContext child, root, context.concat name for name, child of nav
+          (navInContext child, context.concat name for name, child of nav
             .children)
       siblings:
         enumerable: yes
@@ -124,4 +122,5 @@ navInContext = (nav, root, context) ->
       root:
         enumerable: yes
         get: ->
-          webPath.relative context[0], root
+          (navInContext child, context.concat name for name, child of navTree
+            .children)[0]

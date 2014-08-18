@@ -2,24 +2,26 @@
 doctype html
 html(lang='en')
   meta(charset='utf-8')
-  link(href='/css/bootstrap.css', rel='stylesheet')
+  link(href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css', rel='stylesheet')
   .container
     .row
       .col-xs-12
-        h1=short_title
+        h1=nav.title
       .col-xs-12
-        nav(role='navigation')
+        nav
           ul.nav.nav-tabs
-            | parent:
-            - console.log(nav.href, nav.parent.href, nav.root);
+            | Up:
+            a(href=nav.parent.href)= nav.parent.title
+      .col-xs-12
+        nav
+          ul.nav.nav-tabs
             for sibling in nav.siblings
-              - console.log('    ', sibling.title, sibling.href, sibling.active)
-            //if nav.parent
-            //  - console.log('parent', nav.parent);
-            // if nav?.siblings
-            //   - console.log('nav', nav.title, nav.parent && nav.parent.title, nav.siblings);
-            //   each tab in nav.siblings
-            //     li
-                  // (class=tab.active ? 'active' : '')
-            //       a(href=tab.href ? tab.href : ''):= tab.title
-  script(src='/js/bootstrap.js')
+              li
+                a(href=sibling.href, class=(nav.active ? 'active' : ''))= sibling.title
+      .col-xs-12
+        nav
+          ul.nav.nav-tabs
+            for child in nav.children
+              li
+                a(href=child.href)= child.title
+  script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js')

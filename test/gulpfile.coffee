@@ -3,6 +3,7 @@
 gulp = require 'gulp'
 coffee = require 'gulp-coffee'
 jade = require 'gulp-jade'
+connect = require 'gulp-connect'
 
 gulp.task 'coffee', ->
   gulp.src '../*.coffee'
@@ -12,6 +13,9 @@ gulp.task 'coffee', ->
 gulp.task 'test', ['coffee'], ->
   nav  = require '..' # more convenient during development
   42
+
+gulp.task 'serve', ->
+  connect.server root: 'dist'
 
 gulp.task 'default', ['coffee'], ->
   nav  = require '..' # more convenient during development
