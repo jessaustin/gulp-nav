@@ -14,6 +14,7 @@
    orders
    hrefExtension
    demoteTopIndex
+   root
 ###
 
 path = require 'path'
@@ -24,7 +25,7 @@ through = require 'through2'
 files = []
 
 module.exports =
-  ({sources, targets, titles, orders, hrefExtension, demoteTopIndex}={}) ->
+  ({sources, targets, titles, orders, hrefExtension, demoteTopIndex, root}={}) ->
     # defaults
     sources ?= ['data', 'frontMatter']
     targets ?= ['nav', 'data.nav']
@@ -46,20 +47,19 @@ module.exports =
       order = (source[order] for order in orders).reduce (x, y) -> x ?= y
       # insert new nav into the tree
       nav = insertNavIntoTree file.relative, hrefExtension, title, order
-      # set properties of vinyl object
+      # set properties of vinyl object XXX does this need error handling?
       for target in targets
         obj = file
-        [props..., lastProp] = target.split '.'         # handle nested targets
-        obj = obj[prop] ?= {} for prop in props
-        obj[lastProp] = nav
+        [properties..., last] = target.split '.' # for nested target properties
+        obj = obj[property] ?= {} for property in properties
+        obj[last] = nav
       # delay until we've seen them all...
       files.push file
       transformCallback()
     , (flushCallback) ->
       # ...and now we've seen them all
       @push file for file in files
-      console.log file for file in files
-      #console.log (require 'util').inspect navTree, depth: null
+      console.log (require 'util').inspect navTree, depth: null
       flushCallback()
 
 navTree =
@@ -90,34 +90,38 @@ insertNavIntoTree = (relativePath, extension, title, order) ->
         .replace /[-._]/g, ' '                         # punctuation to spaces
         .replace /^$/, '/'                             # root needs a title too
       order: orderGen++
-  current.exists = yes                            # this resource *does* exist!
-  if title
-    current.title = title
-  if order
-    current.order = order
-  navInContext current, _path
+  current.exists = yes             # if we're here, this resource *does* exist!
+  current.title = title if title   # overwrite defaults
+  current.order = order if order
+
+
+  navInContext current, [_path.join '']
 
 # create nav object with  
 navInContext = (nav, context) ->
-  nav and Object.defineProperties
-    title: nav.title
-    href: if nav.exists
-      webPath.relative context[0], webPath.resolve context...
-    active: context.length is 1
-  ,
-    parent:
-      enumerable: yes             # these properties should be easy to find
-      get: ->                     # they're accessors because we need lazy eval
-        navInContext nav.parent, context.concat if context.slice(-1).slice(-1) is '/' then '..' else '.'
-    children:
-      enumerable: yes
-      get: ->
-        sorted = ([name, child] for name, child of nav.children)
-          .sort ([_, a], [__, b]) ->
-            a.order - b.order
-        (navInContext child, context.concat name for [name, child] in sorted)
-    siblings:
-      enumerable: yes
-      get: ->
-        for name, sibling of nav.parent.children
-          navInContext sibling, context.concat name
+  if nav
+    isDir = context[-1..][0][-1..] is '/'
+    href = webPath.relative context[0], webPath.resolve context...
+    Object.defineProperties
+      title: nav.title
+      href: href
+      active: if isDir then href is '.' else href is context[-1..][0]
+    ,
+      context:
+        value: context
+      parent:
+        enumerable: yes           # these properties should be easy to find
+        get: ->                   # they're accessors because we need lazy eval
+          navInContext nav.parent, context.concat if isDir then '..' else '.'
+      children:
+        enumerable: yes
+        get: ->
+          (navInContext child, context.concat name for name, child of nav.children)
+      siblings:
+        enumerable: yes
+        get: ->
+          @parent.children
+      root:
+        enumerable: yes
+        get: ->
+          no

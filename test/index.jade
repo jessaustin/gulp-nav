@@ -11,7 +11,7 @@ html(lang='en')
         nav(role='navigation')
           ul.nav.nav-tabs
             | parent:
-            - console.log(nav.title, nav.href, nav.parent.title, nav.parent.href);
+            - console.log(nav.href, nav.parent.href);
             for sibling in nav.siblings
               - console.log('    ', sibling.title, sibling.href, sibling.active)
             //if nav.parent
