@@ -4,9 +4,9 @@
  gulp-nav is a gulp plugin to help build navigation elements. gulp-nav adds
  "nav" objects to vinyl file objects. nav objects contain relative links,
  titles, parents, children, and siblings. (The last two properties are lists,
- which may optionally be ordered. If you'd like other than default behavior,
- call the exported function with an object that defines one or more of the
- following options:
+ which may optionally be ordered. For other than default behavior, call the
+ exported function with an object that defines one or more of the following
+ options:
 
    sources
    targets
@@ -25,7 +25,8 @@ through = require 'through2'
 files = []
 
 module.exports =
-  ({sources, targets, titles, orders, hrefExtension, demoteTopIndex, root}={}) ->
+  ({sources, targets, titles, orders, hrefExtension, demoteTopIndex,
+  root}={}) ->
     # defaults
     sources ?= ['data', 'frontMatter']
     targets ?= ['nav', 'data.nav']
@@ -33,6 +34,7 @@ module.exports =
     orders ?= 'order'
     hrefExtension ?= 'html'
     demoteTopIndex ?= yes     # XXX implement this!
+    root ?= '/'               # XXX finish implementing this!
     # single options don't have to come wrapped in an Array
     sources = [ sources ] unless Array.isArray sources
     targets = [ targets ] unless Array.isArray targets
@@ -46,7 +48,7 @@ module.exports =
       title = (source[title] for title in titles).reduce (x, y) -> x ?= y
       order = (source[order] for order in orders).reduce (x, y) -> x ?= y
       # insert new nav into the tree
-      nav = insertNavIntoTree file.relative, hrefExtension, title, order
+      nav = insertNavIntoTree file.relative, hrefExtension, title, order, root
       # set properties of vinyl object XXX does this need error handling?
       for target in targets
         obj = file
@@ -70,7 +72,7 @@ navTree =
 
 orderGen = 9999
 
-insertNavIntoTree = (relativePath, extension, title, order) ->
+insertNavIntoTree = (relativePath, extension, title, order, root) ->
   _path = path.resolve '/', relativePath
     .replace /index\.[^/]+$/, ''              # index identified with directory
     .replace /\.[^./]+$/, '.' + extension     # e.g. '.jade' -> '.html'
@@ -93,30 +95,28 @@ insertNavIntoTree = (relativePath, extension, title, order) ->
   current.exists = yes             # if we're here, this resource *does* exist!
   current.title = title if title   # overwrite defaults
   current.order = order if order
-
-
-  navInContext current, [_path.join '']
+  navInContext current, root, [_path.join '']
 
 # create nav object with  
-navInContext = (nav, context) ->
+navInContext = (nav, root, context) ->
   if nav
-    isDir = context[-1..][0][-1..] is '/'
+    isDir = context[-1..][0][-1..] is '/'            # is this nav a directory?
     href = webPath.relative context[0], webPath.resolve context...
     Object.defineProperties
       title: nav.title
-      href: href
+      href: href if nav.exists
       active: if isDir then href is '.' else href is context[-1..][0]
     ,
-      context:
-        value: context
       parent:
         enumerable: yes           # these properties should be easy to find
         get: ->                   # they're accessors because we need lazy eval
-          navInContext nav.parent, context.concat if isDir then '..' else '.'
+          navInContext nav.parent, root,
+          context.concat if isDir then '..' else '.'
       children:
         enumerable: yes
         get: ->
-          (navInContext child, context.concat name for name, child of nav.children)
+          (navInContext child, root, context.concat name for name, child of nav
+            .children)
       siblings:
         enumerable: yes
         get: ->
@@ -124,4 +124,4 @@ navInContext = (nav, context) ->
       root:
         enumerable: yes
         get: ->
-          no
+          webPath.relative context[0], root
