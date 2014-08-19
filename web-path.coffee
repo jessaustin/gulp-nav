@@ -1,11 +1,16 @@
 ###
  copyright (c) 2014 Jess Austin <jess.austin@gmail.com>, MIT license
 
- Node's built-in path module doesn't deal with trailing slashes the way that
- web browsers and servers do. This module provides three functions: join,
- resolve, and relative. Each of these is equivalent to its respective function
- in the built-in path module, except that it does deal with trailing slashes
- the way that web browsers and servers do. 
+ Node's built-in path module doesn't know how trailing slashes are used on the
+ web. The replacement functions in this module know how to deal with trailing
+ slashes. For example:
+
+    > path.resolve('/a/b/c', 'd.html');
+    '/a/b/c/d.html'
+    > webPath.resolve('/a/b/c', 'd.html');
+    '/a/b/d.html'
+    > webPath.resolve('/a/b/c/', 'd.html');
+    '/a/b/c/d.html'
 ###
 
 path = require 'path'
@@ -13,8 +18,8 @@ path = require 'path'
 # replace anything other than two periods after the last slash with a single
 # period
 trimBackToSlash = (str) ->    # this would be a one-liner if we had look-behind
-  str.replace /(?:^)(?!\.\.$)[^/]*$/, '.'         # there was no slash
-    .replace /(?:\/)(?!\.\.$)[^/]*$/, '/.'        # keep the slash
+  str.replace /(?:^)(?!\.\.$)[^/]*$/, '.'                  # there was no slash
+    .replace /(?:\/)(?!\.\.$)[^/]*$/, '/.'                 # keep the slash
 
 module.exports =
   join: (paths...) ->
