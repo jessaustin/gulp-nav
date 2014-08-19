@@ -22,6 +22,6 @@ module.exports =
     path.join (trimBackToSlash p for p in paths)..., last
   resolve: (from..., to) ->
     (path.resolve (trimBackToSlash f for f in from)..., to) +
-    if to.match /\/\.?\.?$/ then '/' else ''
+    if to.match /.\/\.?\.?$/ then '/' else ''
   relative: (from, to) ->
     (path.relative (trimBackToSlash from), to) or '.'

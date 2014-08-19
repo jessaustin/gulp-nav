@@ -14,12 +14,12 @@ gulp.task 'test', ['coffee'], ->
   nav  = require '..' # more convenient during development
   42
 
-gulp.task 'serve', ->
-  connect.server root: 'dist'
-
-gulp.task 'default', ['coffee'], ->
+gulp.task 'build', ['coffee'], ->
   nav  = require '..' # more convenient during development
   gulp.src '**/*.jade'
     .pipe nav()
     .pipe jade pretty: true
     .pipe gulp.dest 'dist'
+
+gulp.task 'default', ['build'], ->
+  connect.server root: 'dist'

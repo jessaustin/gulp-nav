@@ -2,11 +2,11 @@
  copyright (c) 2014 Jess Austin <jess.austin@gmail.com>, MIT license
 
  gulp-nav is a gulp plugin to help build navigation elements. gulp-nav adds
- "nav" objects to vinyl file objects. nav objects contain relative links,
- titles, parents, children, and siblings. (The last two properties are lists,
- which may optionally be ordered. For other than default behavior, call the
- exported function with an object that defines one or more of the following
- options:
+ "nav" objects to vinyl file objects. nav objects contain titles, (relative)
+ href links, active flags, parents, children, and siblings. (The last two
+ properties are lists, which may optionally be ordered. For other than default
+ behavior, call the exported function with an object that defines one or more
+ of the following options:
 
    sources
    targets
@@ -96,32 +96,36 @@ insertNavIntoTree = (relativePath, extension, title, order, root) ->
   current.order = order if order
   navInContext current, [_path.join '']
 
-# create nav object with  
+# Create the actual nav object that will be exposed to user code. This object
+# knows (and the objects that it creates, in turn, know) the context in which
+# it is exposed, so that it can expose accurate link information. Accessor
+# properties are used because the structure is circular so we need some
+# laziness.
 navInContext = (nav, context) ->
-  if nav
-    isDir = context[-1..][0][-1..] is '/'            # is this nav a directory?
-    href = webPath.relative context[0], webPath.resolve context...
-    console.log context, (webPath.resolve context...), context[0] is webPath.resolve context...
-    Object.defineProperties
-      title: nav.title
-      href: href if nav.exists
-      active: context[0] is webPath.resolve context...
-    ,
-      parent:
-        enumerable: yes           # these properties should be easy to find
-        get: ->                   # they're accessors because we need lazy eval
-          navInContext nav.parent, context.concat if isDir then '..' else '.'
-      children:
-        enumerable: yes
-        get: ->
-          (navInContext child, context.concat name for name, child of nav
-            .children)
-      siblings:
-        enumerable: yes
-        get: ->
-          @parent.children
-      root:
-        enumerable: yes
-        get: ->
-          (navInContext child, context.concat name for name, child of navTree
-            .children)[0]
+  Object.defineProperties
+    title: nav.title
+    # how you get here from there, but only if here is an actual place
+    href: webPath.relative context[0], webPath.resolve context... if nav.exists
+    active: context[0] is webPath.resolve context... # ending where we started?
+  ,
+    parent:
+      enumerable: yes             # these properties should be easy to find
+      get: ->                     # they're accessors because we need lazy eval
+        # if in a directory, go up a level
+        postFix = if context[-1..][0][-1..] is '/' then '..' else '.'
+        navInContext nav.parent, context.concat postFix
+    children:
+      enumerable: yes
+      get: ->
+        (navInContext child, context.concat name for [child, name] in (
+          [child, name] for name, child of nav.children)
+            .sort ([a, _], [b, __]) -> a.order - b.order)
+    siblings:
+      enumerable: yes
+      get: ->
+        @parent.children
+    root:
+      enumerable: yes
+      get: ->
+        (navInContext child, context.concat name for name, child of navTree
+          .children)[0]

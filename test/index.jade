@@ -2,7 +2,10 @@
 doctype html
 html(lang='en')
   meta(charset='utf-8')
-  link(href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css', rel='stylesheet')
+  link(href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'
+  rel='stylesheet')
+  // this css is especially handy for seeing the menu inside a clickable link
+  style nav li.dropdown:hover .dropdown-menu { display: block; }
   .container
     .row
       .col-xs-12
@@ -10,13 +13,32 @@ html(lang='en')
     .row
       .col-xs-12
         if nav.parent.href
-          p Up:
-            a(href=nav.parent.href)= nav.parent.title
+          p Up: 
+            a(href=nav.parent.href)=  nav.parent.title
     .row
       .col-xs-12
         nav
           ul.nav.nav-tabs
             for sibling in nav.siblings
-              li(class=(sibling.active ? 'active' : ''))
-                a(href=sibling.href)= sibling.title
+              - liClasses = [];
+              if sibling.active
+                - liClasses.push('active');
+              if sibling.children.length
+                - liClasses.push('dropdown');
+                - aClasses = ['dropdown-toggle'];
+                if sibling.href 
+                  unless sibling.active
+                    - aClasses.push('disabled'); // make menu links clickable
+                li(class=liClasses)
+                  a(class=aClasses data-toggle='dropdown' href=sibling.href
+                  data-target='#')= sibling.title
+                    span.caret
+                    ul.dropdown-menu
+                      for child in sibling.children
+                        li
+                          a(href=child.href)= child.title
+              else
+                li(class=liClasses)
+                  a(href=sibling.href)= sibling.title
+  script(src='//code.jquery.com/jquery-1.11.1.min.js')
   script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js')
