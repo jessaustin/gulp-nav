@@ -22,8 +22,6 @@ webPath = require './web-path'
 through = require 'through2'
   .obj
 
-files = []
-
 module.exports =
   ({sources, targets, titles, orders, hrefExtension, demoteTopIndex,
   root}={}) ->
@@ -40,6 +38,8 @@ module.exports =
     targets = [ targets ] unless Array.isArray targets
     titles  = [ titles ]  unless Array.isArray titles
     orders  = [ orders ]  unless Array.isArray orders
+
+    files = []
 
     through (file, encoding, transformCallback) ->
       # if vinyl objects have different properties, take first defined
@@ -101,10 +101,11 @@ navInContext = (nav, context) ->
   if nav
     isDir = context[-1..][0][-1..] is '/'            # is this nav a directory?
     href = webPath.relative context[0], webPath.resolve context...
+    console.log context, (webPath.resolve context...), context[0] is webPath.resolve context...
     Object.defineProperties
       title: nav.title
       href: href if nav.exists
-      active: if isDir then href is '.' else href is context[-1..][0]
+      active: context[0] is webPath.resolve context...
     ,
       parent:
         enumerable: yes           # these properties should be easy to find

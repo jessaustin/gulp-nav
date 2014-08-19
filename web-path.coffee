@@ -12,7 +12,7 @@ path = require 'path'
 
 # replace anything other than two periods after the last slash with a single
 # period
-trimBackToSlash = (str) ->             # this would be better with look-behind!
+trimBackToSlash = (str) ->    # this would be a one-liner if we had look-behind
   str.replace /(?:^)(?!\.\.$)[^/]*$/, '.'         # there was no slash
     .replace /(?:\/)(?!\.\.$)[^/]*$/, '/.'        # keep the slash
 
@@ -22,6 +22,6 @@ module.exports =
     path.join (trimBackToSlash p for p in paths)..., last
   resolve: (from..., to) ->
     (path.resolve (trimBackToSlash f for f in from)..., to) +
-    if to.match /^|\.\.?$/ then '/' else ''
+    if to.match /\/\.?\.?$/ then '/' else ''
   relative: (from, to) ->
     (path.relative (trimBackToSlash from), to) or '.'

@@ -7,21 +7,16 @@ html(lang='en')
     .row
       .col-xs-12
         h1=nav.title
+    .row
       .col-xs-12
-        nav
-          ul.nav.nav-tabs
-            | Up:
+        if nav.parent.href
+          p Up:
             a(href=nav.parent.href)= nav.parent.title
+    .row
       .col-xs-12
         nav
           ul.nav.nav-tabs
             for sibling in nav.siblings
-              li
-                a(href=sibling.href, class=(nav.active ? 'active' : ''))= sibling.title
-      .col-xs-12
-        nav
-          ul.nav.nav-tabs
-            for child in nav.children
-              li
-                a(href=child.href)= child.title
+              li(class=(sibling.active ? 'active' : ''))
+                a(href=sibling.href)= sibling.title
   script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js')
