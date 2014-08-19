@@ -24,7 +24,7 @@ gulp.task 'build', ['coffee'], ->
       order: order
     .pipe nav()
     .pipe jade pretty: true
-    .pipe gulp.dest 'example'
+    .pipe gulp.dest 'test/dist'
 
 gulp.task 'default', ['build'], ->
-  connect.server root: 'example'
+  connect.server root: 'test/dist'
