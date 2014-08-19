@@ -52,7 +52,8 @@ If we had this in our gulpfile...
     .pipe gulp.dest 'dist'
 ```
 ...and a [really simple jade template like this](test/index.jade), that would
-be enough to add robust navigation to the site, [like this]().
+be enough to add robust navigation to the site, [like
+this](http://jessaustin.github.io/gulp-nav/).
 
 There are a bunch of options you can pass into the plugin in an object, which
 are currently undocumented because they have sensible defaults and they might
