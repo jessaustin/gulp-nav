@@ -51,15 +51,14 @@ If we had this in our gulpfile...
     .pipe jade pretty: true
     .pipe gulp.dest 'example'
 ```
-...and a [really simple jade template like this](blob/master/test/index.jade),
-that would be enough to add robust navigation to the site, [like
-this](blob/master/example/).
+...and a [really simple jade template like this](test/index.jade), that would
+be enough to add robust navigation to the site, [like this](example/).
 
 There are a bunch of options you can pass into the plugin in an object, which
 are currently undocumented because they have sensible defaults and they might
 change. For example, I'll probably add a `root` option so links can start with
 `/complicated/path/prefix/` instead of `/`. If you want to know all about the
-options then [read the source](blob/master/gulp-nav.coffee#L27-L34).
+options then [read the source](gulp-nav.coffee#L27-L34).
 
 One current default is to expose the nav data at both the
 `nav` and `data.nav` (the latter for use with the new ["data
