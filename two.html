@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <meta charset="utf-8">
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+  <!-- this css is especially handy for seeing the menu inside a clickable link-->
+  <style>nav li.dropdown:hover .dropdown-menu { display: block; }</style>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        <h1>Two</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <p>Up: <a href=".">Home</a></p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <nav>
+          <ul class="nav nav-tabs">
+            <li><a href="one.html">One</a></li>
+            <li class="dropdown"><a data-toggle="dropdown" href="latin" data-target="#" class="dropdown-toggle disabled">Latin<span class="caret"></span>
+                <ul class="dropdown-menu">
+                  <li><a href="latin/letter-a.html">A</a></li>
+                  <li><a href="latin/b.html">B</a></li>
+                  <li><a href="latin/c.html">C</a></li>
+                </ul></a></li>
+            <li class="active"><a href="two.html">Two</a></li>
+            <li><a href="three.html">Three</a></li>
+            <li class="dropdown"><a data-toggle="dropdown" data-target="#" class="dropdown-toggle">Greek<span class="caret"></span>
+                <ul class="dropdown-menu">
+                  <li><a href="greek/alpha.html">Alpha</a></li>
+                  <li><a href="greek/beta.html">Beta</a></li>
+                  <li><a href="greek/gamma.html">Gamma</a></li>
+                  <li><a href="greek/delta.html">Delta</a></li>
+                </ul></a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+    <div class="row">
+      <p>
+        This is a demo of the gulp-nav gulp plugin. Check out the navigation
+        section above.
+      </p>
+    </div>
+  </div>
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+</html>
