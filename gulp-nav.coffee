@@ -3,7 +3,7 @@
 
  gulp-nav is a gulp plugin to help build navigation elements. gulp-nav adds
  "nav" objects to vinyl file objects. nav objects contain titles, (relative)
- href links, active flags, parents, children, and siblings. (The last two
+ href links, active flags, parents, children, and siblings. The last two
  properties are lists, which may optionally be ordered. For other than default
  behavior, call the exported function with an object that defines one or more
  of the following options:
