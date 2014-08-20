@@ -14,7 +14,6 @@
    orders
    hrefExtension
    demoteTopIndex
-   rootPath
 ###
 
 path = require 'path'
@@ -22,9 +21,11 @@ webPath = require './web-path'
 through = require 'through2'
   .obj
 
+root = null
+rootName = null
+
 module.exports =
-  ({sources, targets, titles, orders, hrefExtension, demoteTopIndex,
-  rootPath}={}) ->
+  ({sources, targets, titles, orders, hrefExtension, demoteTopIndex}={}) ->
     # defaults
     sources ?= ['data', 'frontMatter']
     targets ?= ['nav', 'data.nav']
@@ -32,7 +33,6 @@ module.exports =
     orders ?= 'order'
     hrefExtension ?= 'html'
     demoteTopIndex ?= no
-    rootPath ?= '/'               # XXX finish implementing this!
     # single options don't have to come wrapped in an Array
     sources = [ sources ] unless Array.isArray sources
     targets = [ targets ] unless Array.isArray targets
@@ -51,7 +51,7 @@ module.exports =
       title = (source[title] for title in titles).reduce (x, y) -> x ?= y
       order = (source[order] for order in orders).reduce (x, y) -> x ?= y
       # insert new nav into the tree
-      nav = insertNavIntoTree file.relative, hrefExtension, title, order, rootPath
+      nav = insertNavIntoTree file.relative, hrefExtension, title, order
       # set properties of vinyl object XXX does this need error handling?
       for target in targets
         obj = file
@@ -80,12 +80,9 @@ navTree =
   exists: no
   title: null
 
-root = null
-rootName = null
-
 orderGen = 9999
 
-insertNavIntoTree = (relativePath, extension, title, order, rootPath) ->
+insertNavIntoTree = (relativePath, extension, title, order) ->
   _path = path.resolve '/', relativePath
     .replace /index\.[^/]+$/, ''              # index identified with directory
     .replace /\.[^./]+$/, '.' + extension     # e.g. '.jade' -> '.html'
