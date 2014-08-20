@@ -103,8 +103,8 @@ insertNavIntoTree = (relativePath, extension, title, order, root) ->
         .replace /^$/, '/'                             # root needs a title too
       order: orderGen++
   current.exists = yes             # if we're here, this resource *does* exist!
-  current.title = title if title   # overwrite defaults
-  current.order = order if order
+  current.title = title ? current.title     # overwrite defaults with non-nulls
+  current.order = order ? current.order
   navInContext current, [_path.join '']
 
 # Create the actual nav object that will be exposed to user code. This object
