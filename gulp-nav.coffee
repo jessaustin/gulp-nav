@@ -45,6 +45,10 @@ module.exports =
       # if vinyl objects have different properties, take first defined
       source = (file[source] for source in sources).reduce (x, y) -> x ?= y
       source ?= file    # just look for title and order on the vinyl obj itself
+      if source?.navSkip
+        @push file
+        transformCallback()
+        return
       title = (source[title] for title in titles).reduce (x, y) -> x ?= y
       order = (source[order] for order in orders).reduce (x, y) -> x ?= y
       # insert new nav into the tree
