@@ -8,7 +8,7 @@ connect = require 'gulp-connect'
 
 gulp.task 'coffee', ->
   gulp.src ['*.coffee', '!gulpfile.coffee']
-    .pipe coffee()
+    .pipe coffee bare: true
     .pipe gulp.dest '.'
 
 gulp.task 'build', ['coffee'], ->
