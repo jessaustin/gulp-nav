@@ -31,7 +31,7 @@ module.exports =
     titles ?= ['short_title', 'title']
     orders ?= 'order'
     hrefExtension ?= 'html'
-    demoteTopIndex ?= yes     # XXX implement this!
+    demoteTopIndex ?= no
     root ?= '/'               # XXX finish implementing this!
     # single options don't have to come wrapped in an Array
     sources = [ sources ] unless Array.isArray sources
@@ -59,6 +59,14 @@ module.exports =
       files.push file
       transformCallback()
     , (flushCallback) ->
+      for name, child of navTree.children
+        root = child
+        rootName = name
+      if demoteTopIndex       # top-level index becomes sibling of its children
+        for name, child of root.children
+          navTree.children[webPath.resolve rootName, name] = child
+          child.parent = navTree
+        root.children = {}
       # ...and now we've seen them all
       @push file for file in files
       flushCallback()
@@ -68,6 +76,9 @@ navTree =
   children: {}
   exists: no
   title: null
+
+root = null
+rootName = null
 
 orderGen = 9999
 
@@ -127,5 +138,4 @@ navInContext = (nav, context) ->
     root:
       enumerable: yes
       get: ->
-        (navInContext child, context.concat name for name, child of navTree
-          .children)[0]
+        navInContext root, context.concat rootName
