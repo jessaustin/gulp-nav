@@ -40,16 +40,16 @@ If we had this in our gulpfile...
 
 ```coffeescript
   gulp.task 'build', ['coffee'], ->
-  gulp.src 'test/**/*.jade'
-    .pipe data (file) ->
-      for line in (
+    gulp.src 'test/**/*.jade'
+      .pipe data (file) ->
+        for line in (
            file.contents.toString().match /(?:^|\n) *- *(var [^\n]*)(?:$|\n)/g)
-        eval line.replace /(?:\n|^) *-? */g, ''
-      title: title
-      order: order
-    .pipe nav()
-    .pipe jade pretty: true
-    .pipe gulp.dest 'dist'
+          eval line.replace /(?:\n|^) *-? */g, ''
+        title: title
+        order: order
+      .pipe nav()
+      .pipe jade pretty: true
+      .pipe gulp.dest 'dist'
 ```
 ...and a [really simple jade template like this](test/index.jade), that would
 be enough to add robust navigation to the site, [like
