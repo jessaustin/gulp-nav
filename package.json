@@ -3,7 +3,10 @@
   "version": "0.0.1",
   "description": "A gulp plugin to help build navigation elements",
   "keywords": [
-    "gulpplugin"
+    "gulpplugin",
+    "nav",
+    "directory",
+    "hierarchy"
   ],
   "author": "Jess Austin <jess.austin@gmail.com>",
   "license": "MIT",
