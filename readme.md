@@ -53,13 +53,14 @@ If we had this in our gulpfile...
 ```
 ...and a [really simple jade template like this](test/index.jade), that would
 be enough to add robust navigation to the site, [like
-this](http://jessaustin.github.io/gulp-nav/).
+this](http://jessaustin.github.io/gulp-nav/). If you don't like this sort of
+munging about with eval, then use a template language with better-specified
+front matter.
 
 There are a bunch of options you can pass into the plugin in an object, which
 are currently undocumented because they have sensible defaults and they might
-change. For example, several of the options have been sketched out, but not
-completely implemented. If you want to know all about the options then [read
-the source](gulp-nav.coffee#L27-L35).
+change. If you want to know all about the options then [read the
+source](gulp-nav.coffee#L27-L35).
 
 One current default is to expose the nav data at both the `nav` and `data.nav`
 (the latter for use with the new ["data
