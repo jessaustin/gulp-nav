@@ -123,7 +123,7 @@ navInContext = (nav, context) ->
       enumerable: yes             # these properties should be easy to find
       get: ->                     # they're accessors because we need lazy eval
         # if in a directory, go up a level
-        postFix = if context[-1..][0][-1..] is '/' then '..' else '.'
+        postFix = if context[-1..][0][-1..] in ['/', '.'] then '..' else '.'
         navInContext nav.parent, context.concat postFix
     children:
       enumerable: yes
