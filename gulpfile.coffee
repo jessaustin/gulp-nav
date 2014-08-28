@@ -33,19 +33,57 @@ gulp.task 'build', ['coffee'], ->
   processJade()
     .pipe gulp.dest 'test/dist'
 
+gulp.task 'default', ['build'], ->
+  connect.server root: 'test/dist'
+
 gulp.task 'test', ['coffee'], ->
   processJade()
     .pipe filter 'latin/b.html'
     .pipe spy (file) ->
-      console.log file.nav.title
-      console.log file.nav.href
-      console.log file.nav.parent
-      console.log file.nav.siblings
-      console.log file.nav.children
-      console.log file.nav.root
-      test (tape) ->
-        tape.plan 1
-        tape.equal 0, 0
-
-gulp.task 'default', ['build'], ->
-  connect.server root: 'test/dist'
+      titleMsg = 'Nav should have this title.'
+      hrefMsg = 'Nav should have this href.'
+      activeMsg = 'Nav should be active.'
+      notActiveMsg = 'Nav shouldn\'t be active.'
+      Msg = ''
+      test 'Self', (tape) ->
+        tape.is file.nav.title, 'B', titleMsg
+        tape.is file.nav.href, 'b.html', hrefMsg
+        tape.ok file.nav.active, activeMsg
+        tape.end()
+      test 'Parent', (tape) ->
+        tape.is file.nav.parent.title, 'Latin', titleMsg
+        tape.is file.nav.parent.href, '.', hrefMsg
+        tape.notOk file.nav.parent.active, notActiveMsg
+        tape.end()
+      test 'Grandparent', (tape) ->
+        tape.is file.nav.parent.parent.title, 'Home', titleMsg
+        tape.is file.nav.parent.parent.href, '..', hrefMsg
+        tape.notOk file.nav.root.active, notActiveMsg
+        tape.end()
+      test 'Siblings', (tape) ->
+        for item, i in [
+          title: 'A'
+          href: 'letter-a.html'
+          active: no
+        ,
+          title: 'B'
+          href: 'b.html'
+          active: yes
+        ,
+          title: 'C'
+          href: 'c.html'
+          active: no
+        ]
+          current = file.nav.siblings[i]
+          tape.is current.title, item.title, titleMsg
+          tape.is current.href, item.href, hrefMsg
+          tape.is current.active, item.active, if item.active then activeMsg else notActiveMsg
+        tape.end()
+      test 'Children', (tape) ->
+        tape.notOk file.nav.children.length, 'Nav should have no children.'
+        tape.end()
+      test 'Root', (tape) ->
+        tape.is file.nav.root.title, 'Home', titleMsg
+        tape.is file.nav.root.href, '..', hrefMsg
+        tape.notOk file.nav.root.active, notActiveMsg
+        tape.end()
