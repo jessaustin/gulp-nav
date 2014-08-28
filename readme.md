@@ -1,9 +1,9 @@
 gulp-nav
 ========
 
-[![Build Status](https://travis-ci.org/jessaustin/gulp-nav.svg?branch=master)](https://travis-ci.org/jessaustin/gulp-nav)
-[![Dependency Status](https://david-dm.org/jessaustin/gulp-nav.svg)](https://david-dm.org/jessaustin/gulp-nav)
-[![devDependency Status](https://david-dm.org/jessaustin/gulp-nav/dev-status.svg)](https://david-dm.org/jessaustin/gulp-nav#info=devDependencies)
+[![Build Status](https://travis-ci.org/jessaustin/gulp-nav.svg?branch=master)](https://travis-ci.org/jessaustin/gulp-nav "Travis")
+[![Dependency Status](https://david-dm.org/jessaustin/gulp-nav.svg)](https://david-dm.org/jessaustin/gulp-nav "David")
+[![devDependency Status](https://david-dm.org/jessaustin/gulp-nav/dev-status.svg)](https://david-dm.org/jessaustin/gulp-nav#info=devDependencies "David for dev dependencies")
 [![NPM](https://nodei.co/npm/gulp-nav.png)](https://nodei.co/npm/gulp-nav/)
 
 A [gulp](https://github.com/gulpjs/gulp) plugin to help build navigation or
