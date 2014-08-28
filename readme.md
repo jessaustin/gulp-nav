@@ -1,6 +1,8 @@
 gulp-nav
 ========
 
+[![Build Status](https://travis-ci.org/jessaustin/gulp-nav.svg?branch=master)](https://travis-ci.org/jessaustin/gulp-nav)
+
 A [gulp](https://github.com/gulpjs/gulp) plugin to help build navigation or
 breadcrumb elements implicitly from the file structure of your package. The
 goal is to be useful with e.g. [Bootstrap .nav
