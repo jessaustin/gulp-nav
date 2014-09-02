@@ -26,6 +26,7 @@
     "gulp-data": ">=1",
     "gulp-filter": ">=1",
     "gulp-jade": ">=0.6",
+    "jade-var-matter": ">=0",
     "tape": ">=2.14",
     "through2-spy": ">=1.2"
   },

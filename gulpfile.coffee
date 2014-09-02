@@ -3,6 +3,7 @@
 gulp    = require 'gulp'
 coffee  = require 'gulp-coffee'
 data    = require 'gulp-data'
+matter  = require 'jade-var-matter'
 jade    = require 'gulp-jade'
 filter  = require 'gulp-filter'
 spy     = require 'through2-spy'
@@ -19,13 +20,7 @@ processJade = ->                                                          # DRY
   nav  = require './gulp-nav' # convenient during development to wait until now
   gulp.src 'test/**/*.jade'
     .pipe data (file) ->
-      for line in (
-           file.contents.toString().match /(?:^|\n) *- *(var [^\n]*)(?:$|\n)/g)
-        # instead of this eval stuff you might want to use something like
-        # gulp-frontmatter
-        eval line.replace /(?:\n|^) *-? */g, ''
-      title: title
-      order: order
+      matter String file.contents
     .pipe nav()
     .pipe jade pretty: true
 

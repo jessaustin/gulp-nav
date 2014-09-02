@@ -44,23 +44,21 @@ generated page. If this sounds good to you, you're in the right place.
 If we had this in our gulpfile...
 
 ```coffeescript
+  data = require 'gulp-data'
+  matter = require 'jade-var-matter'
+  nav = require 'gulp-nav'
+  jade = require 'gulp-jade'
   gulp.task 'build', ['coffee'], ->
     gulp.src 'test/**/*.jade'
       .pipe data (file) ->
-        for line in (
-           file.contents.toString().match /(?:^|\n) *- *(var [^\n]*)(?:$|\n)/g)
-          eval line.replace /(?:\n|^) *-? */g, ''
-        title: title
-        order: order
+        matter String file.contents
       .pipe nav()
       .pipe jade pretty: true
       .pipe gulp.dest 'dist'
 ```
 ...and a [really simple jade template like this](test/index.jade), that would
 be enough to add robust navigation to the site, [like
-this](http://jessaustin.github.io/gulp-nav/). If you don't like this sort of
-munging about with eval, then use a template language with better-specified
-front matter.
+this](http://jessaustin.github.io/gulp-nav/).
 
 There are a bunch of options you can pass into the plugin in an object, which
 are currently undocumented because they have sensible defaults and they might
