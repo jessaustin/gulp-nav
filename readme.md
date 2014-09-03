@@ -10,10 +10,7 @@ A [gulp](http://gulpjs.com/) plugin to help build navigation or breadcrumb
 elements implicitly from the file structure of your package. The
 goal is to be useful with e.g. [Bootstrap .nav
 classes](http://getbootstrap.com/components/#nav), and your favorite templating
-system. (I like [Jade](http://jade-lang.com/)!) This plugin is inspired by the
-very nice [gulp-filetree](https://github.com/0x01/gulp-filetree) package. (I
-actually had a few sites with something cobbled together with gulp-filetree
-before I decided to make gulp-nav.)
+system. (I like [Jade](http://jade-lang.com/)!)
 
 Imagine you have some source files in a directory hierarchy:
 ```
@@ -58,9 +55,20 @@ If we had this in our ([coffeescript](http://coffeescript.org/)) gulpfile...
       .pipe jade pretty: true
       .pipe gulp.dest 'dist'
 ```
-...and a [really simple jade template like this](test/index.jade), that would
-be enough to add robust navigation to the site, [like
-this](http://jessaustin.github.io/gulp-nav/).
+
+...and our template file had something like this...
+
+```jade
+    nav
+      ul.nav.nav-tabs
+        for sibling in nav.siblings
+          li
+            a(href=sibling.href)= sibling.title
+```
+
+...that would be enough to generate easy, maintainable navbars! [This slightly
+more elaborate template file](test/index.jade), generates the nav for [the demo
+site](http://jessaustin.github.io/gulp-nav/).
 
 There are a bunch of options you can pass into the plugin in an object, which
 are currently undocumented because they have sensible defaults and they might
