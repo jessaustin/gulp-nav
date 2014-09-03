@@ -6,8 +6,8 @@ gulp-nav
 [![devDependency Status](https://david-dm.org/jessaustin/gulp-nav/dev-status.svg)](https://david-dm.org/jessaustin/gulp-nav#info=devDependencies "David for dev dependencies")
 [![NPM](https://nodei.co/npm/gulp-nav.png)](https://nodei.co/npm/gulp-nav/ "npmjs")
 
-A [gulp](https://github.com/gulpjs/gulp) plugin to help build navigation or
-breadcrumb elements implicitly from the file structure of your package. The
+A [gulp](http://gulpjs.com/) plugin to help build navigation or breadcrumb
+elements implicitly from the file structure of your package. The
 goal is to be useful with e.g. [Bootstrap .nav
 classes](http://getbootstrap.com/components/#nav), and your favorite templating
 system. (I like [Jade](http://jade-lang.com/)!) This plugin is inspired by the
@@ -44,10 +44,12 @@ generated page. If this sounds good to you, you're in the right place.
 If we had this in our ([coffeescript](http://coffeescript.org/)) gulpfile...
 
 ```coffeescript
+  gulp = require 'gulp'
   data = require 'gulp-data'
   matter = require 'jade-var-matter'
   nav = require 'gulp-nav'
   jade = require 'gulp-jade'
+
   gulp.task 'default', ->
     gulp.src 'test/**/*.jade'
       .pipe data (file) ->
@@ -68,5 +70,5 @@ source](gulp-nav.coffee#L27-L35).
 One current default is to expose the nav data at both the `nav` and `data.nav`
 (the latter for use with the new ["data
 API"](https://github.com/colynb/gulp-data#note-to-gulp-plugin-authors))
-properties of the vinyl file object, although either or both of these may be
-overridden via the `target` option.
+properties of the [vinyl](https://github.com/wearefractal/vinyl) file object,
+although either or both of these may be overridden via the `target` option.
