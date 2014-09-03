@@ -62,7 +62,7 @@ module.exports =
       files.push file
       transformCallback()
     , (flushCallback) ->
-      for name, child of navTree.children
+      for name, child of navTree.children                    # there's only one
         root = child
         rootName = name
       if demoteTopIndex       # top-level index becomes sibling of its children
