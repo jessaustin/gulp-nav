@@ -41,14 +41,14 @@ were located and what they were called. With that information, a template could
 be written to build navbars, breadcrumbs, or whatever you want on your
 generated page. If this sounds good to you, you're in the right place.
 
-If we had this in our gulpfile...
+If we had this in our ([coffeescript](http://coffeescript.org/)) gulpfile...
 
 ```coffeescript
   data = require 'gulp-data'
   matter = require 'jade-var-matter'
   nav = require 'gulp-nav'
   jade = require 'gulp-jade'
-  gulp.task 'build', ['coffee'], ->
+  gulp.task 'default', ->
     gulp.src 'test/**/*.jade'
       .pipe data (file) ->
         matter String file.contents
