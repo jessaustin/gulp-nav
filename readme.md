@@ -73,15 +73,15 @@ site](http://jessaustin.github.io/gulp-nav/).
 
 The `nav` object referenced above has the following properties:
 
-|          |                                                                                                 |
-| -------- | ----------------------------------------------------------------------------------------------- |
-| title    | Identifier for this resource.                                                                   |
-| href     | Relative link to this resource.                                                                 |
-| active   | Is this resource the current one?                                                               |
-| parent   | `nav` object representing this resource's parent. May be null.                                  |
-| children | Array of `nav` objects for this resource's children. Empty when this isn't an "index" resource. |
-| siblings | Array of `nav` objects for this resource's parent's children.                                   |
-| root     | `nav` object representing the ancestor of all streamed resources.                               |
+|          |                                                                                         |
+| -------- | --------------------------------------------------------------------------------------- |
+| title    | Identifier for this resource.                                                           |
+| href     | Relative link to this resource. May be `null`, e.g. for a directory without an index.   |
+| active   | Is this resource the current one? `true` or `false`.                                    |
+| parent   | `nav` object representing this resource's parent. May be `null`.                        |
+| children | Array of `nav` objects for this resource's children. Empty when this isn't a directory. |
+| siblings | Array of `nav` objects for this resource's parent's children.                           |
+| root     | `nav` object representing the ancestor of all streamed resources.                       |
 
 There are a bunch of options we can pass into the plugin (in an object), which
 are currently undocumented because they have sensible defaults and they might
