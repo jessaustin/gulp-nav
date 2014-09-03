@@ -29,10 +29,11 @@ Imagine we have some source files in a directory hierarchy:
   ├── three.jade
   └── two.jade
 ```
-We know how to `gulp.pipe` these through appropriate plugins and transforms,
-leaving us with a bunch of output pages in a similar directory hierarchy. What
-about links between those pages, however? We don't want to hardcode that stuff!
-While each file is piped through, an object stored as a property of the [vinyl
+We know how to [`.pipe`](http://nodejs.org/api/stream.html#stream_readable_pipe_destination_options)
+these through appropriate plugins and transforms, leaving us with a bunch of
+output pages in a similar directory hierarchy. What about links between those
+pages, however? We don't want to hardcode that stuff! While each file is piped
+through, an object stored as a property of the [vinyl
 file object](https://github.com/wearefractal/vinyl#file), which knows where
 other files are located and what they are called, could be really useful to
 template plugins. With that information, a template could be written to build
@@ -93,4 +94,4 @@ One current default is to expose the nav data at both the `nav` and `data.nav`
 API"](https://github.com/colynb/gulp-data#note-to-gulp-plugin-authors))
 properties of the [vinyl file
 object](https://github.com/wearefractal/vinyl#file), although either or both of
-these may be overridden via the `target` option.
+these may be overridden via the `targets` option.
