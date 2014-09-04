@@ -17,23 +17,23 @@
    demoteTopIndex
 ###
 
-path = require 'path'
+path    = require 'path'
 webPath = require './web-path'
 through = require 'through2'
   .obj
 
-root = null
+# global vars easier for this
+root     = null
 rootName = null
 
-module.exports =
-  ({sources, targets, titles, orders, skips, hrefExtension,
+module.exports = ({sources, targets, titles, orders, skips, hrefExtension,
   demoteTopIndex}={}) ->
     # defaults -- the first five are just arrays of property names
     sources ?= ['data', 'frontMatter']
     targets ?= ['nav', 'data.nav']
-    titles ?= ['short_title', 'title']
-    orders ?= 'order'
-    skips ?= 'skipThis'
+    titles  ?= ['short_title', 'title']
+    orders  ?= 'order'
+    skips   ?= 'skipThis'
     hrefExtension ?= 'html'
     demoteTopIndex ?= no
     # single options don't have to come wrapped in an Array
@@ -43,20 +43,51 @@ module.exports =
     orders  = [ orders ]  unless Array.isArray orders
     skips   = [ skips ]   unless Array.isArray orders
 
+    # scaffolding for crawling the directory structure
     files = []
+    navTree =
+      parent: null
+      children: {}
+      exists: no
+      title: null
+    orderGen = 9999
 
     through (file, encoding, transformCallback) ->
       # if vinyl objects have different properties, take first that exists
       source = (file[source] for source in sources).reduce (x, y) -> x ?= y
-      source ?= file  # just look for title and order on the vinyl obj itself
+      source ?= file         # just look for properties on the vinyl obj itself
+      title = (source[title] for title in titles).reduce (x, y) -> x ?= y
+      order = (source[order] for order in orders).reduce (x, y) -> x ?= y
+      # skip this file?
       for skip in skips
         if skip of source and source[skip]
           @push file
           return transformCallback()
-      title = (source[title] for title in titles).reduce (x, y) -> x ?= y
-      order = (source[order] for order in orders).reduce (x, y) -> x ?= y
+      # normalize the path and break it into its constituent elements
+      _path = path.resolve '/', file.relative
+        .replace /index\.[^/]+$/, ''          # index identified with directory
+        .replace /\.[^./]+$/, '.' + hrefExtension     # e.g. '.jade' -> '.html'
+        .split /([^/]*\/)/                    # e.g. '/a/b' -> ['/', 'a/', 'b']
+        .filter (element) -> element isnt ''
       # insert new nav into the tree
-      nav = insertNavIntoTree file.relative, hrefExtension, title, order
+      current = navTree
+      for element in _path
+        current = current.children[element] ?= # recurse down the path, filling
+          parent: current                      # in tree with missing elements
+          children: {}
+          exists: no                           # for directories without index
+          title: path.basename element.replace /\/?index[^/]*$/, ''
+            .toLowerCase()
+            .replace /\.[^.]*$/, ''                    # remove extension
+            .replace /(?:^|[-._])[a-z]/g, (first) ->
+              first.toUpperCase()                      # capitalize each word
+            .replace /[-._]/g, ' '                     # punctuation to spaces
+            .replace /^$/, '/'                         # root needs a title too
+          order: orderGen++
+      current.exists = yes         # if we're here, this resource *does* exist!
+      current.title = title ? current.title # overwrite defaults with non-nulls
+      current.order = order ? current.order
+      nav = navInContext current, [_path.join '']
       # set properties of vinyl object XXX does this need error handling?
       for target in targets
         obj = file
@@ -78,39 +109,6 @@ module.exports =
       # ...and now we've seen them all
       @push file for file in files
       flushCallback()
-
-navTree =
-  parent: null
-  children: {}
-  exists: no
-  title: null
-
-orderGen = 9999
-
-insertNavIntoTree = (relativePath, extension, title, order) ->
-  _path = path.resolve '/', relativePath
-    .replace /index\.[^/]+$/, ''              # index identified with directory
-    .replace /\.[^./]+$/, '.' + extension     # e.g. '.jade' -> '.html'
-    .split /([^/]*\/)/                        # e.g. '/a/b' -> ['/', 'a/', 'b']
-    .filter (element) -> element isnt ''
-  current = navTree
-  for element in _path
-    current = current.children[element] ?=   # recurse down, filling in missing
-      parent: current
-      children: {}
-      exists: no                             # for directories without an index
-      title: path.basename element.replace /\/?index[^/]*$/, ''
-        .toLowerCase()
-        .replace /\.[^.]*$/, ''                        # remove extension
-        .replace /(?:^|[-._])[a-z]/g, (first) ->
-          first.toUpperCase()                          # capitalize each word
-        .replace /[-._]/g, ' '                         # punctuation to spaces
-        .replace /^$/, '/'                             # root needs a title too
-      order: orderGen++
-  current.exists = yes             # if we're here, this resource *does* exist!
-  current.title = title ? current.title     # overwrite defaults with non-nulls
-  current.order = order ? current.order
-  navInContext current, [_path.join '']
 
 # Create the actual nav object that will be exposed to user code. This object
 # knows (and the objects that it creates, in turn, know) the context in which
@@ -135,7 +133,7 @@ navInContext = (nav, context) ->
       get: ->
         (navInContext child, context.concat name for [child, name] in (
           [child, name] for name, child of nav.children)
-            .sort ([a, _], [b, __]) -> a.order - b.order) # XXX use splats?
+            .sort ([a, ...], [b, ...]) -> a.order - b.order)
     siblings:
       enumerable: yes
       get: ->
