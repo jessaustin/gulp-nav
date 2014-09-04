@@ -86,13 +86,15 @@ The `nav` object referenced above has the following properties:
 | root     | `nav` object representing the ancestor of all streamed resources. |
 
 If you want `children` and `siblings` to be in a particular order, just have an
-order property defined on each [file
-object](https://github.com/wearefractal/vinyl#file).
+`order` property defined on each [file
+object](https://github.com/wearefractal/vinyl#file). `order` should be a
+number, low for the "first" resource and high for the "last" resource in the
+directory.
 
 There are a bunch of options we can pass into the plugin (in an object), which
 are currently undocumented because they have sensible defaults and they might
 change. If you want to know all about the options then [read the
-source](gulp-nav.coffee#L27-L35).
+source](gulp-nav.coffee#L32-L38).
 
 One current default is to expose the nav data at both the `nav` and `data.nav`
 (the latter for use with the new ["data

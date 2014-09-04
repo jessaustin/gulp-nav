@@ -135,7 +135,7 @@ navInContext = (nav, context) ->
       get: ->
         (navInContext child, context.concat name for [child, name] in (
           [child, name] for name, child of nav.children)
-            .sort ([a, _], [b, __]) -> a.order - b.order)
+            .sort ([a, _], [b, __]) -> a.order - b.order) # XXX use splats?
     siblings:
       enumerable: yes
       get: ->
