@@ -10,7 +10,7 @@ A [gulp](http://gulpjs.com/) plugin to help build navigation or breadcrumb
 elements implicitly from the file structure of our package. The goal is to be
 useful with e.g. [Bootstrap .nav
 classes](http://getbootstrap.com/components/#nav) and our favorite templating
-system. (I like [Jade](http://jade-lang.com/)!)
+system. (If you need templates, try [Jade](http://jade-lang.com/).)
 
 Imagine we have some source files in a directory hierarchy:
 ```
