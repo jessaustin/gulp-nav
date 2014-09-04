@@ -22,7 +22,7 @@ processJade = ->                                                          # DRY
     .pipe data (file) ->
       matter String file.contents
     .pipe nav()
-    .pipe jade pretty: true
+    .pipe jade pretty: true   # XXX move this to 'build' if we can get test to run anyway
 
 gulp.task 'build', ['coffee'], ->
   processJade()
