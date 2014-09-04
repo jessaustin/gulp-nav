@@ -6,7 +6,8 @@
  href links, active flags, parents, children, and siblings. The last two
  properties are lists, which may optionally be ordered. For other than default
  behavior, call the exported function with an object that defines one or more
- of the following options:
+ of the following options (the first five can be a single property name, or an
+ array of property names):
 
    sources
    targets
@@ -69,7 +70,7 @@ module.exports = ({sources, targets, titles, orders, skips, hrefExtension,
         .replace /\.[^./]+$/, '.' + hrefExtension     # e.g. '.jade' -> '.html'
         .split /([^/]*\/)/                    # e.g. '/a/b' -> ['/', 'a/', 'b']
         .filter (element) -> element isnt ''
-      # insert new nav into the tree
+      # find the right spot for the new resource
       current = navTree
       for element in _path
         current = current.children[element] ?= # recurse down the path, filling
@@ -84,9 +85,11 @@ module.exports = ({sources, targets, titles, orders, skips, hrefExtension,
             .replace /[-._]/g, ' '                     # punctuation to spaces
             .replace /^$/, '/'                         # root needs a title too
           order: orderGen++
+      # clean up the leaf
       current.exists = yes         # if we're here, this resource *does* exist!
       current.title = title ? current.title # overwrite defaults with non-nulls
       current.order = order ? current.order
+      # use leaf to make the nav object
       nav = navInContext current, [_path.join '']
       # set properties of vinyl object XXX does this need error handling?
       for target in targets
