@@ -12,6 +12,7 @@
    targets
    titles
    orders
+   skips
    hrefExtension
    demoteTopIndex
 ###
@@ -25,12 +26,14 @@ root = null
 rootName = null
 
 module.exports =
-  ({sources, targets, titles, orders, hrefExtension, demoteTopIndex}={}) ->
-    # defaults
+  ({sources, targets, titles, orders, skips, hrefExtension,
+  demoteTopIndex}={}) ->
+    # defaults -- the first five are just arrays of property names
     sources ?= ['data', 'frontMatter']
     targets ?= ['nav', 'data.nav']
     titles ?= ['short_title', 'title']
     orders ?= 'order'
+    skips ?= 'skipThis'
     hrefExtension ?= 'html'
     demoteTopIndex ?= no
     # single options don't have to come wrapped in an Array
@@ -38,16 +41,18 @@ module.exports =
     targets = [ targets ] unless Array.isArray targets
     titles  = [ titles ]  unless Array.isArray titles
     orders  = [ orders ]  unless Array.isArray orders
+    skips   = [ skips ]   unless Array.isArray orders
 
     files = []
 
     through (file, encoding, transformCallback) ->
       # if vinyl objects have different properties, take first that exists
       source = (file[source] for source in sources).reduce (x, y) -> x ?= y
-      source ?= file    # just look for title and order on the vinyl obj itself
-      if source?.navSkip
-        @push file
-        return transformCallback()
+      source ?= file  # just look for title and order on the vinyl obj itself
+      for skip in skips
+        if skip of source and source[skip]
+          @push file
+          return transformCallback()
       title = (source[title] for title in titles).reduce (x, y) -> x ?= y
       order = (source[order] for order in orders).reduce (x, y) -> x ?= y
       # insert new nav into the tree
@@ -55,17 +60,17 @@ module.exports =
       # set properties of vinyl object XXX does this need error handling?
       for target in targets
         obj = file
-        [properties..., last] = target.split '.' # for nested target properties
+        [properties..., last] = target.split '.'    # for nested target props
         obj = obj[property] ?= {} for property in properties
         obj[last] = nav
       # delay until we've seen them all...
       files.push file
       transformCallback()
     , (flushCallback) ->
-      for name, child of navTree.children                    # there's only one
+      for name, child of navTree.children                  # there's only one
         root = child
         rootName = name
-      if demoteTopIndex       # top-level index becomes sibling of its children
+      if demoteTopIndex     # top-level index becomes sibling of its children
         for name, child of root.children
           navTree.children[webPath.resolve rootName, name] = child
           child.parent = navTree
