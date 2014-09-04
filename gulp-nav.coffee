@@ -19,13 +19,10 @@
 ###
 
 path    = require 'path'
-webPath = require './web-path'
 through = require 'through2'
-  .obj
+webPath = require './web-path'
 
-# global vars easier for this
-root     = null
-rootName = null
+root = rootName = null                            # global vars easier for this
 
 module.exports = ({sources, targets, titles, orders, skips, hrefExtension,
   demoteTopIndex}={}) ->
@@ -53,7 +50,7 @@ module.exports = ({sources, targets, titles, orders, skips, hrefExtension,
       title: null
     orderGen = 9999
 
-    through (file, encoding, transformCallback) ->
+    through.obj (file, encoding, transformCallback) ->
       # if vinyl objects have different properties, take first that exists
       source = (file[source] for source in sources).reduce (x, y) -> x ?= y
       source ?= file         # just look for properties on the vinyl obj itself
@@ -94,17 +91,17 @@ module.exports = ({sources, targets, titles, orders, skips, hrefExtension,
       # set properties of vinyl object XXX does this need error handling?
       for target in targets
         obj = file
-        [properties..., last] = target.split '.'    # for nested target props
+        [properties..., last] = target.split '.'      # for nested target props
         obj = obj[property] ?= {} for property in properties
         obj[last] = nav
       # delay until we've seen them all...
       files.push file
       transformCallback()
-    , (flushCallback) ->
-      for name, child of navTree.children                  # there's only one
+    , (flushCallback) ->                   # (still in the call to through.obj)
+      for name, child of navTree.children                    # there's only one
         root = child
         rootName = name
-      if demoteTopIndex     # top-level index becomes sibling of its children
+      if demoteTopIndex       # top-level index becomes sibling of its children
         for name, child of root.children
           navTree.children[webPath.resolve rootName, name] = child
           child.parent = navTree
