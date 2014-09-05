@@ -39,7 +39,7 @@ module.exports = ({sources, targets, titles, orders, skips, hrefExtension,
     targets = [ targets ] unless Array.isArray targets
     titles  = [ titles ]  unless Array.isArray titles
     orders  = [ orders ]  unless Array.isArray orders
-    skips   = [ skips ]   unless Array.isArray orders
+    skips   = [ skips ]   unless Array.isArray skips
 
     # scaffolding for crawling the directory structure
     files = []
