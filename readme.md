@@ -88,7 +88,7 @@ The `nav` object referenced above has the following properties:
 If you want `children` and `siblings` to be in a particular order, just have an
 `order` property defined on each [file
 object](https://github.com/wearefractal/vinyl#file). `order` should be a
-number, low for the "first" resource and high for the "last" resource in the
+number, small for the "first" resource and large for the "last" resource in the
 directory.
 
 There are a bunch of options we can pass into the plugin (in an object), which
