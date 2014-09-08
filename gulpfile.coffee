@@ -1,7 +1,6 @@
 # copyright (c) 2014 Jess Austin <jess.austin@gmail.com>, MIT license
 
 gulp    = require 'gulp'
-coffee  = require 'gulp-coffee'
 data    = require 'gulp-data'
 matter  = require 'jade-var-matter'
 jade    = require 'gulp-jade'
@@ -11,29 +10,24 @@ spy     = require 'through2-spy'
 test    = require 'tape'
 connect = require 'gulp-connect'
 
-gulp.task 'coffee', ->
-  gulp.src ['*.coffee', '!gulpfile.coffee']
-    .pipe coffee bare: true
-    .pipe gulp.dest '.'
-
 processJade = ->                                                          # DRY
   nav  = require './gulp-nav' # convenient during development to wait until now
   gulp.src 'test/**/*.jade'
     .pipe data (file) ->
       matter String file.contents
     .pipe nav()
-    .pipe jade pretty: true   # XXX move this to 'build' if we can get test to run anyway
 
-gulp.task 'build', ['coffee'], ->
+gulp.task 'build', ->
   processJade()
+    .pipe jade pretty: true
     .pipe gulp.dest 'test/dist'
 
 gulp.task 'default', ['build'], ->
   connect.server root: 'test/dist'
 
-gulp.task 'test', ['coffee'], ->
+gulp.task 'test', ->
   processJade()
-    .pipe filter 'latin/b.html'
+    .pipe filter 'latin/b.jade'
     .pipe spy (file) ->
       titleMsg = 'Nav should have this title.'
       hrefMsg = 'Nav should have this href.'
