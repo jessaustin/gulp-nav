@@ -32,6 +32,7 @@
   "main": "gulp-nav.js",
   "scripts": {
     "prepublish": "coffee -c gulp-nav.coffee web-path.coffee",
+    "postpublish": "rm *.js",
     "test": "gulp test"
   }
 }
