@@ -1,6 +1,6 @@
 {
   "name": "gulp-nav",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A gulp plugin to help build navigation elements",
   "keywords": [
     "gulpplugin",
@@ -31,7 +31,7 @@
   },
   "main": "gulp-nav.js",
   "scripts": {
-    "prepublish": "coffee -c gulp-nav.coffee web-path.coffee", 
+    "prepublish": "coffee -c gulp-nav.coffee web-path.coffee",
     "test": "gulp test"
   }
 }
