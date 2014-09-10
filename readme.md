@@ -34,15 +34,14 @@ We know how to
 these through appropriate plugins and transforms, leaving us with a bunch of
 output pages in a similar directory hierarchy. What about links between those
 pages, however? We don't want to hardcode that stuff! While each file is piped
-through, an object stored as a property of the [vinyl
-file object](https://github.com/wearefractal/vinyl#file), which stored object
-knows where other files are located and what they are called, could be really
-useful to template plugins. With that information, a template could be written
-to build navbars, breadcrumbs, or whatever we want on our generated page.
+through, an object stored as a property of the [vinyl file object][vfo], which
+stored object knows where other files are located and what they are called,
+could be really useful to template plugins. With that information, a template
+could be written to build navbars, breadcrumbs, or whatever we want on our
+generated page.
 
 What would this look like? If we had this in our
 ([coffeescript](http://coffeescript.org/)) gulpfile...
-
 ```coffeescript
   gulp = require 'gulp'
   data = require 'gulp-data'
@@ -58,7 +57,6 @@ What would this look like? If we had this in our
       .pipe jade pretty: true
       .pipe gulp.dest 'dist'
 ```
-
 ...and our template file had something like this...
 
 ```jade
@@ -68,7 +66,6 @@ What would this look like? If we had this in our
           li
             a(href=sibling.href)= sibling.title
 ```
-
 ...that would be enough to generate easy, maintainable navbars! [This slightly
 more elaborate template file](test/index.jade) generates the nav for [the demo
 site](http://jessaustin.github.io/gulp-nav/).
@@ -86,8 +83,7 @@ The `nav` object referenced above has the following properties:
 | root     | `nav` object representing the ancestor of all streamed resources. |
 
 If you want `children` and `siblings` to be in a particular order, just have an
-`order` property defined on each [file
-object](https://github.com/wearefractal/vinyl#file). `order` should be a
+`order` property defined on each [file object][vfo]. `order` should be a
 number, small for the "first" resource and large for the "last" resource in the
 directory.
 
@@ -99,5 +95,7 @@ source](gulp-nav.coffee#L29-L36).
 One current default is to expose the nav data at both the `nav` and `data.nav`
 (the latter for use with the new ["data
 API"](https://github.com/colynb/gulp-data#note-to-gulp-plugin-authors))
-properties of the [file object](https://github.com/wearefractal/vinyl#file),
-although either or both of these may be overridden via the `targets` option.
+properties of the [file object][vfo], although either or both of these may be
+overridden via the `targets` option.
+
+[vfo]: https://github.com/wearefractal/vinyl#file "Vinyl File Object"
