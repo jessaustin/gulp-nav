@@ -1,11 +1,11 @@
 gulp-nav
 ========
 
-[![Build Status][travis-url][travis-img]
-[![Coverage Status][cover-img]][cover-url]
-[![Dependency Status][david-url][david-img]
-[![devDependency Status][david-dep-url][david-dep-img]
-[![NPM][npmjs-url][npmjs-img]
+[![Build Status]][travis-url][travis-img]
+[![Coverage Status]][cover-img]][cover-url]
+[![Dependency Status]][david-url][david-img]
+[![devDependency Status]][david-dep-url][david-dep-img]
+[![NPM]][npmjs-url][npmjs-img]
 
 A [gulp](http://gulpjs.com/) plugin to help build navigation or breadcrumb
 elements implicitly from the file structure of our package. The goal is to be
