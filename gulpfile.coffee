@@ -4,11 +4,11 @@ gulp    = require 'gulp'
 data    = require 'gulp-data'
 matter  = require 'jade-var-matter'
 jade    = require 'gulp-jade'
+connect = require 'gulp-connect'
 filter  = require 'gulp-filter'
 spy     = require 'through2-spy'
   .obj
 test    = require 'tape'
-connect = require 'gulp-connect'
 
 processJade = ->                                                          # DRY
   nav  = require './gulp-nav' # convenient during development to wait until now
@@ -34,22 +34,22 @@ gulp.task 'test', ->
       activeMsg = 'Nav should be active.'
       notActiveMsg = 'Nav shouldn\'t be active.'
       Msg = ''
-      test 'Self', (tape) ->
-        tape.is file.nav.title, 'B', titleMsg
-        tape.is file.nav.href, 'b.html', hrefMsg
-        tape.ok file.nav.active, activeMsg
-        tape.end()
-      test 'Parent', (tape) ->
-        tape.is file.nav.parent.title, 'Latin', titleMsg
-        tape.is file.nav.parent.href, '.', hrefMsg
-        tape.notOk file.nav.parent.active, notActiveMsg
-        tape.end()
-      test 'Grandparent', (tape) ->
-        tape.is file.nav.parent.parent.title, 'Home', titleMsg
-        tape.is file.nav.parent.parent.href, '..', hrefMsg
-        tape.notOk file.nav.root.active, notActiveMsg
-        tape.end()
-      test 'Siblings', (tape) ->
+      test 'Self', (assert) ->
+        assert.is file.nav.title, 'B', titleMsg
+        assert.is file.nav.href, 'b.html', hrefMsg
+        assert.ok file.nav.active, activeMsg
+        assert.end()
+      test 'Parent', (assert) ->
+        assert.is file.nav.parent.title, 'Latin', titleMsg
+        assert.is file.nav.parent.href, '.', hrefMsg
+        assert.notOk file.nav.parent.active, notActiveMsg
+        assert.end()
+      test 'Grandparent', (assert) ->
+        assert.is file.nav.parent.parent.title, 'Home', titleMsg
+        assert.is file.nav.parent.parent.href, '..', hrefMsg
+        assert.notOk file.nav.root.active, notActiveMsg
+        assert.end()
+      test 'Siblings', (assert) ->
         for item, i in [
           title: 'A'
           href: 'letter-a.html'
@@ -64,15 +64,16 @@ gulp.task 'test', ->
           active: no
         ]
           current = file.nav.siblings[i]
-          tape.is current.title, item.title, titleMsg
-          tape.is current.href, item.href, hrefMsg
-          tape.is current.active, item.active, if item.active then activeMsg else notActiveMsg
-        tape.end()
-      test 'Children', (tape) ->
-        tape.notOk file.nav.children.length, 'Nav should have no children.'
-        tape.end()
-      test 'Root', (tape) ->
-        tape.is file.nav.root.title, 'Home', titleMsg
-        tape.is file.nav.root.href, '..', hrefMsg
-        tape.notOk file.nav.root.active, notActiveMsg
-        tape.end()
+          assert.is current.title, item.title, titleMsg
+          assert.is current.href, item.href, hrefMsg
+          assert.is current.active, item.active,
+            if item.active then activeMsg else notActiveMsg
+        assert.end()
+      test 'Children', (assert) ->
+        assert.notOk file.nav.children.length, 'Nav should have no children.'
+        assert.end()
+      test 'Root', (assert) ->
+        assert.is file.nav.root.title, 'Home', titleMsg
+        assert.is file.nav.root.href, '..', hrefMsg
+        assert.notOk file.nav.root.active, notActiveMsg
+        assert.end()
