@@ -1,11 +1,11 @@
 gulp-nav
 ========
 
-[![Build Status][travis-url]][travis-img]
+[![Build Status][travis-img]][travis-url]
 [![Coverage Status][cover-img]][cover-url]
-[![Dependency Status][david-url]][david-img]
-[![devDependency Status][david-dep-url]][david-dep-img]
-[![NPM][npmjs-url]][npmjs-img]
+[![Dependency Status][david-img]][david-url]
+[![devDependency Status][david-dep-img]][david-dep-url]
+[![NPM][npmjs-img]][npmjs-url]
 
 A [gulp](http://gulpjs.com/) plugin to help build navigation or breadcrumb
 elements implicitly from the file structure of our package. The goal is to be
@@ -98,15 +98,15 @@ API"](https://github.com/colynb/gulp-data#note-to-gulp-plugin-authors))
 properties of the [file object][vfo], although either or both of these may be
 overridden via the `targets` option.
 
-[travis-url]: https://travis-ci.org/jessaustin/gulp-nav.svg?branch=master "Travis"
-[travis-img]: https://travis-ci.org/jessaustin/gulp-nav
+[travis-url]: https://travis-ci.org/jessaustin/gulp-nav
+[travis-img]: https://travis-ci.org/jessaustin/gulp-nav.svg?branch=master "Travis"
 [cover-url]: https://coveralls.io/r/jessaustin/gulp-nav?branch=master "Coveralls"
 [cover-img]: https://coveralls.io/repos/jessaustin/gulp-nav/badge.png?branch=master
-[david-url]: https://david-dm.org/jessaustin/gulp-nav.svg "David"
-[david-img]: https://david-dm.org/jessaustin/gulp-nav
-[david-dep-url]: https://david-dm.org/jessaustin/gulp-nav/dev-status.svg "David for dev dependencies"
-[david-dep-img]: https://david-dm.org/jessaustin/gulp-nav#info=devDependencies
-[npmjs-url]: https://nodei.co/npm/gulp-nav.png "npm Registry"
-[npmjs-img]: https://nodei.co/npm/gulp-nav/
+[david-url]: https://david-dm.org/jessaustin/gulp-nav
+[david-img]: https://david-dm.org/jessaustin/gulp-nav.svg "David"
+[david-dep-url]: https://david-dm.org/jessaustin/gulp-nav#info=devDependencies
+[david-dep-img]: https://david-dm.org/jessaustin/gulp-nav/dev-status.svg "David for dev dependencies"
+[npmjs-url]: https://nodei.co/npm/gulp-nav/
+[npmjs-img]: https://nodei.co/npm/gulp-nav.png?compact=true "npm Registry"
 [pipe]: http://nodejs.org/api/stream.html#stream_readable_pipe_destination_options "stream.Readable.pipe()"
 [vfo]: https://github.com/wearefractal/vinyl#file "Vinyl File Object"
