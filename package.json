@@ -1,7 +1,7 @@
 {
   "name": "gulp-nav",
   "version": "0.1.3",
-  "description": "A gulp plugin to help build navigation elements",
+  "description": "gulp plugin to help build navigation elements",
   "keywords": [
     "gulpplugin",
     "nav",
@@ -20,11 +20,13 @@
   },
   "devDependencies": {
     "coffee-script": ">=1.7",
+    "coveralls": ">=2.11",
     "gulp": ">=3.8",
     "gulp-connect": ">=2",
     "gulp-data": ">=1",
     "gulp-filter": ">=1",
     "gulp-jade": ">=0.6",
+    "istanbul": ">=0.3",
     "jade-var-matter": ">=0",
     "tape": ">=2.14",
     "through2-spy": ">=1.2"
@@ -33,6 +35,6 @@
   "scripts": {
     "prepublish": "coffee -c gulp-nav.coffee web-path.coffee",
     "postpublish": "rm *.js",
-    "test": "gulp test"
+    "test": "npm run-script prepublish && istanbul cover gulp test && coveralls < coverage/lcov.info ; npm run-script postpublish"
   }
 }
