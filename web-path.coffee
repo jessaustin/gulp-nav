@@ -22,9 +22,6 @@ trimBackToSlash = (str) ->    # this would be a one-liner if we had look-behind
     .replace /(?:\/)(?!\.\.$)[^/]*$/, '/.'                 # keep the slash
 
 module.exports =
-  join: (paths...) ->
-    last = paths.pop()
-    path.join (trimBackToSlash p for p in paths)..., last
   resolve: (from..., to) ->
     (path.resolve (trimBackToSlash f for f in from)..., to) +
     if to.match /.\/\.?\.?$/ then '/' else ''

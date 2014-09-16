@@ -33,7 +33,7 @@ gulp.task 'test', ->
       hrefMsg = 'Nav should have this href.'
       activeMsg = 'Nav should be active.'
       notActiveMsg = 'Nav shouldn\'t be active.'
-      Msg = ''
+
       test 'Self', (assert) ->
         assert.is file.nav.title, 'B', titleMsg
         assert.is file.nav.href, 'b.html', hrefMsg
