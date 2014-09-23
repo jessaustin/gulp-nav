@@ -19,6 +19,7 @@ Imagine we have some source files in a directory hierarchy:
   ├── greek
   │   ├── alpha.jade
   │   ├── beta.jade
+  │   ├── delta.jade
   │   └── gamma.jade
   ├── index.jade
   ├── latin

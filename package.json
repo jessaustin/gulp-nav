@@ -26,6 +26,7 @@
     "gulp-data": ">=1",
     "gulp-filter": ">=1",
     "gulp-jade": ">=0.6",
+    "gulp-load-plugins": ">=0.6",
     "istanbul": ">=0.3",
     "jade-var-matter": ">=0",
     "tape": ">=2.14",
