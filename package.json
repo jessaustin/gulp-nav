@@ -34,8 +34,8 @@
   },
   "main": "gulp-nav.js",
   "scripts": {
-    "prepublish": "coffee -c gulp-nav.coffee web-path.coffee",
-    "postpublish": "rm *.js",
+    "prepublish": "coffee --compile --map gulp-nav.coffee web-path.coffee",
+    "postpublish": "rm *.js *.js.map",
     "test": "npm run-script prepublish && istanbul cover gulp test && coveralls < coverage/lcov.info ; npm run-script postpublish"
   }
 }
