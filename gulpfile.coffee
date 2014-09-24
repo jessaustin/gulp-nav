@@ -1,14 +1,14 @@
 # copyright (c) 2014 Jess Austin <jess.austin@gmail.com>, MIT license
 
-gulp   = require 'gulp'
+gulp = require 'gulp'
 matter = require 'jade-var-matter'
-spy    = require 'through2-spy'
+spy = require 'through2-spy'
   .obj
-test   = require 'tape'
+test = require 'tape'
 {connect, data, filter, jade} = (require 'gulp-load-plugins')()
 
 processBegin = ->
-  nav  = require './gulp-nav' # convenient during development to wait until now
+  nav = require './gulp-nav'  # convenient during development to wait until now
   gulp.src 'test/**/*.jade'
     .pipe data (file) ->
       matter String file.contents

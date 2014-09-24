@@ -22,7 +22,7 @@ path    = require 'path'
 through = require 'through2'
 webPath = require './web-path'
 
-root = rootName = null                            # global vars easier for this
+root = rootName = null
 
 module.exports = ({sources, targets, titles, orders, skips, hrefExtension,
   demoteTopIndex}={}) ->
@@ -125,7 +125,6 @@ navInContext = (nav, context) ->
     parent:
       enumerable: yes             # these properties should be easy to find
       get: ->                     # they're accessors because we need lazy eval
-        # if in a directory, go up a level
         postFix = if context[-1..][0][-1..] in ['/', '.'] then '..' else '.'
         navInContext nav.parent, context.concat postFix
     children:
