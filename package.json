@@ -36,6 +36,8 @@
   "scripts": {
     "prepublish": "coffee --compile --map gulp-nav.coffee web-path.coffee",
     "postpublish": "rm *.js *.js.map",
-    "test": "npm run-script prepublish && istanbul cover gulp test && coveralls < coverage/lcov.info ; npm run-script postpublish"
+    "pretest": "npm run-script prepublish",
+    "test": "istanbul cover gulp test",
+    "posttest": "coveralls < coverage/lcov.info 2> /dev/null ; npm run-script postpublish"
   }
 }
