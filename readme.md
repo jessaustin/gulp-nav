@@ -8,10 +8,10 @@ gulp-nav
 [![NPM][npmjs-img]][npmjs-url]
 
 A [gulp](http://gulpjs.com/) plugin to help build navigation or breadcrumb
-elements implicitly from the file structure of our package. The goal is to be
-useful with e.g. [Bootstrap .nav
-classes](http://getbootstrap.com/components/#nav) and our favorite templating
-system. (If you need templates, try [Jade](http://jade-lang.com/).)
+elements implicitly from our file structure. The goal is to be useful with e.g.
+[Bootstrap .nav classes](http://getbootstrap.com/components/#nav) and our
+favorite templating system. (If you need templates, try
+[Jade](http://jade-lang.com/).)
 
 Imagine we have some source files in a directory hierarchy:
 ```
@@ -46,8 +46,8 @@ What would this look like? If we had this in our
 ```coffeescript
   gulp = require 'gulp'
   data = require 'gulp-data'
-  nav  = require 'gulp-nav'
   jade = require 'gulp-jade'
+  nav = require 'gulp-nav'
   matter = require 'jade-var-matter'
 
   gulp.task 'default', ->
@@ -101,16 +101,13 @@ overridden via the `targets` option.
 
 [travis-url]: https://travis-ci.org/jessaustin/gulp-nav "Travis"
 [travis-img]: https://travis-ci.org/jessaustin/gulp-nav.svg?branch=master
-[cover-url]: https://coveralls.io/r/jessaustin/gulp-nav?branch=master
-             "Coveralls"
+[cover-url]: https://coveralls.io/r/jessaustin/gulp-nav?branch=master "Coveralls"
 [cover-img]: https://coveralls.io/repos/jessaustin/gulp-nav/badge.png?branch=master
 [david-url]: https://david-dm.org/jessaustin/gulp-nav "David"
 [david-img]: https://david-dm.org/jessaustin/gulp-nav.svg
-[david-dep-url]: https://david-dm.org/jessaustin/gulp-nav#info=devDependencies
-                 "David for dev dependencies"
+[david-dep-url]: https://david-dm.org/jessaustin/gulp-nav#info=devDependencies "David for dev dependencies"
 [david-dep-img]: https://david-dm.org/jessaustin/gulp-nav/dev-status.svg
-[npmjs-url]: https://nodei.co/npm/gulp-nav/ "npm Registry"
+[npmjs-url]: https://www.npmjs.org/package/gulp-nav "npm Registry"
 [npmjs-img]: https://nodei.co/npm/gulp-nav.png?compact=true
-[pipe]: http://nodejs.org/api/stream.html#stream_readable_pipe_destination_options
-        "stream.Readable.pipe()"
+[pipe]: http://nodejs.org/api/stream.html#stream_readable_pipe_destination_options "stream.Readable.pipe()"
 [vfo]: https://github.com/wearefractal/vinyl#file "Vinyl File Object"
