@@ -18,9 +18,9 @@
    demoteTopIndex
 ###
 
-path    = require 'path'
+{basename} = require 'path'
 through = require 'through2'
-webPath = require './web-path'
+{relative, resolve} = require './web-path'
 
 root = rootName = null
 
@@ -62,19 +62,19 @@ module.exports = ({sources, targets, titles, orders, skips, hrefExtension,
           @push file
           return transformCallback()
       # normalize the path and break it into its constituent elements
-      _path = path.resolve '/', file.relative
+      path = resolve '/', file.relative
         .replace /index\.[^/]+$/, ''          # index identified with directory
         .replace /\.[^./]+$/, '.' + hrefExtension     # e.g. '.jade' -> '.html'
         .split /([^/]*\/)/                    # e.g. '/a/b' -> ['/', 'a/', 'b']
         .filter (element) -> element isnt ''
       # find the right spot for the new resource
       current = navTree
-      for element in _path
+      for element in path
         current = current.children[element] ?= # recurse down the path, filling
           parent: current                      # in tree with missing elements
           children: {}
           exists: no                           # for directories without index
-          title: path.basename element.replace /\/?index[^/]*$/, ''
+          title: basename element.replace /\/?index[^/]*$/, ''
             .toLowerCase()
             .replace /\.[^.]*$/, ''                    # remove extension
             .replace /(?:^|[-._])[a-z]/g, (first) ->
@@ -87,7 +87,7 @@ module.exports = ({sources, targets, titles, orders, skips, hrefExtension,
       current.title = title ? current.title # overwrite defaults with non-nulls
       current.order = order ? current.order
       # use leaf to make the nav object
-      nav = navInContext current, [_path.join '']
+      nav = navInContext current, [path.join '']
       # set properties of vinyl object XXX does this need error handling?
       for target in targets
         obj = file
@@ -103,7 +103,7 @@ module.exports = ({sources, targets, titles, orders, skips, hrefExtension,
         rootName = name
       if demoteTopIndex       # top-level index becomes sibling of its children
         for name, child of root.children
-          navTree.children[webPath.resolve rootName, name] = child
+          navTree.children[resolve rootName, name] = child
           child.parent = navTree
         root.children = {}
       # ...and now we've seen them all
@@ -119,8 +119,8 @@ navInContext = (nav, context) ->
   Object.defineProperties
     title: nav.title
     # how you get here from there, but only if here is an actual place
-    href: webPath.relative context[0], webPath.resolve context... if nav.exists
-    active: context[0] is webPath.resolve context... # ending where we started?
+    href: relative context[0], resolve context... if nav.exists
+    active: context[0] is resolve context... # ending where we started?
   ,
     parent:
       enumerable: yes             # these properties should be easy to find
