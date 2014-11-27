@@ -77,9 +77,9 @@ module.exports = ({sources, targets, titles, orders, skips, hrefExtension,
           title: basename element.replace /\/?index[^/]*$/, ''
             .toLowerCase()
             .replace /\.[^.]*$/, ''                    # remove extension
-            .replace /(?:^|[-._])[a-z]/g, (first) ->
-              first.toUpperCase()                      # capitalize each word
             .replace /[-._]/g, ' '                     # punctuation to spaces
+            .replace /\b\w/g, (first) ->
+              first.toUpperCase()                      # capitalize each word
             .replace /^$/, '/'                         # root needs a title too
           order: orderGen++
       # clean up the leaf
