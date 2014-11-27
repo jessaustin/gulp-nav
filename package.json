@@ -1,6 +1,6 @@
 {
   "name": "gulp-nav",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "gulp plugin to help build navigation elements",
   "keywords": [
     "gulpplugin",
