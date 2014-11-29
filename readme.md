@@ -40,32 +40,32 @@ files are located and what they are called, could be really useful to template
 plugins. With that information, a template could be written to build navbars,
 breadcrumbs, or whatever we want on our generated page.
 
-What would this look like? If we had this in our
-([coffeescript](http://coffeescript.org/)) gulpfile...
+What would this look like? If we had this in our gulpfile...
 
-```coffeescript
-  gulp = require 'gulp'
-  data = require 'gulp-data'
-  jade = require 'gulp-jade'
-  nav = require 'gulp-nav'
-  matter = require 'jade-var-matter'
+```javascript
+var gulp = require('gulp'),
+    data = require('gulp-data'),
+    matter = require('jade-var-matter'),
+    nav = require('gulp-nav'),
+    jade = require('gulp-jade');
 
-  gulp.task 'default', ->
-    gulp.src 'src/**/*.jade'
-      .pipe data (file) ->            # the jade file can define title or order
-        matter String file.contents
-      .pipe nav()                     # here's where the magic happens!
-      .pipe jade pretty: true
-      .pipe gulp.dest 'dist'
+gulp.task('default', function() {
+    return gulp.src('src/**/*.jade')
+         /* the jade file can define title or order; put those at file.data */
+        .pipe(data(function(file) { return matter(String(file.contents)); }))
+        .pipe(nav())
+        .pipe(jade())
+        .pipe(gulp.dest('dist'));
+});
 ```
 ...and our template file had something like this...
 
 ```jade
-    nav
-      ul.nav.nav-tabs
-        for sibling in nav.siblings
-          li
-            a(href=sibling.href)= sibling.title
+  nav
+    ul.nav.nav-tabs
+      for sibling in nav.siblings
+        li
+          a(href=sibling.href)= sibling.title
 ```
 ...that would be enough to generate easy, maintainable navbars! [This slightly
 more elaborate template file](test/index.jade) generates the nav for [the demo
@@ -73,7 +73,7 @@ site](http://jessaustin.github.io/gulp-nav/).
 
 The `nav` object referenced above has the following properties:
 
-|          |                                                                  |
+| property | description                                                      |
 | :------: | ---------------------------------------------------------------- |
 | title    | Identifier for this resource.                                    |
 | href     | Relative link to this resource. `null` for a directory without an index. |

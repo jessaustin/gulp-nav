@@ -2,3 +2,4 @@ node_modules/
 *.js
 test/dist
 coverage/
+npm-debug.log
