@@ -4,7 +4,7 @@
  gulp-nav is a gulp plugin to help build navigation elements. gulp-nav adds
  "nav" objects to vinyl file objects. nav objects contain titles, (relative)
  href links, active flags, parents, children, and siblings. The last two
- properties are lists, which may optionally be ordered. For other than default
+ properties are arrays, which may optionally be ordered. For other than default
  behavior, call the exported function with an object that defines one or more
  of the following options (the first five can be a single property name, or an
  array of property names):
@@ -59,8 +59,7 @@ module.exports = ({sources, targets, titles, orders, skips, hrefExtension,
       # skip this file?
       for skip in skips
         if skip of source and source[skip]
-          @push file
-          return transformCallback()
+          return transformCallback null, file
       # normalize the path and break it into its constituent elements
       path = resolve '/', file.relative
         .replace /index\.[^/]+$/, ''          # index identified with directory
