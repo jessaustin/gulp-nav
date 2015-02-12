@@ -22,6 +22,7 @@
 through = require 'through2'
 {relative, resolve} = require './web-path'
 
+# XXX could these be somewhere else?
 root = rootName = null
 
 module.exports = ({sources, targets, titles, orders, skips, hrefExtension,
@@ -64,11 +65,10 @@ module.exports = ({sources, targets, titles, orders, skips, hrefExtension,
       path = resolve '/', file.relative
         .replace /index\.[^/]+$/, ''          # index identified with directory
         .replace /\.[^./]+$/, '.' + hrefExtension     # e.g. '.jade' -> '.html'
-        .split /([^/]*\/)/                    # e.g. '/a/b' -> ['/', 'a/', 'b']
-        .filter (element) -> element isnt ''
       # find the right spot for the new resource
       current = navTree
-      for element in path
+      for element in (path.split /([^/]*\/)/  # e.g. '/a/b' -> ['/', 'a/', 'b']
+          .filter (element) -> element isnt '')
         current = current.children[element] ?= # recurse down the path, filling
           parent: current                      # in tree with missing elements
           children: {}
@@ -86,7 +86,7 @@ module.exports = ({sources, targets, titles, orders, skips, hrefExtension,
       current.title = title ? current.title # overwrite defaults with non-nulls
       current.order = order ? current.order
       # use leaf to make the nav object
-      nav = navInContext current, [path.join '']
+      nav = navInContext current, [path]
       # set properties of vinyl object XXX does this need error handling?
       for target in targets
         obj = file
