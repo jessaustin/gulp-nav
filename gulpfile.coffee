@@ -2,8 +2,7 @@
 
 gulp = require 'gulp'
 matter = require 'jade-var-matter'
-spy = require 'through2-spy'
-  .obj
+through = require 'through2'
 test = require 'tape'
 {connect, data, filter, jade} = (require 'gulp-load-plugins')()
 stream = require 'gulp-stream'
@@ -29,7 +28,7 @@ gulp.task 'test', ->
 
 runTest = (label, src) ->
   src.pipe filter 'latin/b.jade'
-    .pipe spy (file) ->
+    .pipe through.obj (file) ->
       titleMsg = 'Nav should have this title.'
       hrefMsg = 'Nav should have this href.'
       activeMsg = 'Nav should be active.'

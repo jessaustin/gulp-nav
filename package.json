@@ -30,8 +30,7 @@
     "gulp-stream": ">=0.0.2",
     "istanbul": ">=0.3",
     "jade-var-matter": ">=0",
-    "tape": ">=2.14",
-    "through2-spy": ">=1.2"
+    "tape": ">=2.14"
   },
   "main": "gulp-nav.js",
   "scripts": {
