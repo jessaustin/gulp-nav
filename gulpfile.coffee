@@ -6,6 +6,7 @@ spy = require 'through2-spy'
   .obj
 test = require 'tape'
 {connect, data, filter, jade} = (require 'gulp-load-plugins')()
+stream = require 'gulp-stream'
 
 processBegin = ->
   nav = require './gulp-nav'  # convenient during development to wait until now
@@ -23,30 +24,33 @@ gulp.task 'default', ['build'], ->
   connect.server root: 'test/dist'
 
 gulp.task 'test', ->
-  processBegin()
-    .pipe filter 'latin/b.jade'
+  runTest 'Buffer', processBegin()
+  runTest 'Stream', processBegin().pipe stream()
+
+runTest = (label, src) ->
+  src.pipe filter 'latin/b.jade'
     .pipe spy (file) ->
       titleMsg = 'Nav should have this title.'
       hrefMsg = 'Nav should have this href.'
       activeMsg = 'Nav should be active.'
       notActiveMsg = 'Nav shouldn\'t be active.'
 
-      test 'Self', (assert) ->
+      test "Self-#{label}", (assert) ->
         assert.is file.nav.title, 'B', titleMsg
         assert.is file.nav.href, 'b.html', hrefMsg
         assert.ok file.nav.active, activeMsg
         assert.end()
-      test 'Parent', (assert) ->
+      test "Parent-#{label}", (assert) ->
         assert.is file.nav.parent.title, 'Latin', titleMsg
         assert.is file.nav.parent.href, '.', hrefMsg
         assert.notOk file.nav.parent.active, notActiveMsg
         assert.end()
-      test 'Grandparent', (assert) ->
+      test "Grandparent-#{label}", (assert) ->
         assert.is file.nav.parent.parent.title, 'Home', titleMsg
         assert.is file.nav.parent.parent.href, '..', hrefMsg
         assert.notOk file.nav.root.active, notActiveMsg
         assert.end()
-      test 'Siblings', (assert) ->
+      test "Siblings-#{label}", (assert) ->
         for item, i in [
           title: 'A'
           href: 'letter-a.html'
@@ -66,10 +70,10 @@ gulp.task 'test', ->
           assert.is current.active, item.active,
             if item.active then activeMsg else notActiveMsg
         assert.end()
-      test 'Children', (assert) ->
+      test "Children-#{label}", (assert) ->
         assert.notOk file.nav.children.length, 'Nav should have no children.'
         assert.end()
-      test 'Root', (assert) ->
+      test "Root-#{label}", (assert) ->
         assert.is file.nav.root.title, 'Home', titleMsg
         assert.is file.nav.root.href, '..', hrefMsg
         assert.notOk file.nav.root.active, notActiveMsg
