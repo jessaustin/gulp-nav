@@ -11,8 +11,9 @@ A [gulp](http://gulpjs.com/) plugin to help build navigation or breadcrumb
 elements implicitly from our file structure. The goal is to be useful with e.g.
 [Bootstrap .nav classes](http://getbootstrap.com/components/#nav) and your
 favorite templating system. (If you need templates, try
-[Jade](http://jade-lang.com/).) *gulp-nav* can handle [vinyl file objects][vfo] 
-with [stream][stream] `contents` and with [buffer][buffer] `contents`.
+[Jade](http://jade-lang.com/).) **gulp-nav** can handle
+[vinyl file objects][vfo] with [stream][stream] `contents` and with
+[buffer][buffer] `contents`.
 
 Imagine we have some source files in a directory hierarchy:
 ```
