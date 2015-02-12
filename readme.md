@@ -9,9 +9,10 @@ gulp-nav
 
 A [gulp](http://gulpjs.com/) plugin to help build navigation or breadcrumb
 elements implicitly from our file structure. The goal is to be useful with e.g.
-[Bootstrap .nav classes](http://getbootstrap.com/components/#nav) and our
+[Bootstrap .nav classes](http://getbootstrap.com/components/#nav) and your
 favorite templating system. (If you need templates, try
-[Jade](http://jade-lang.com/).)
+[Jade](http://jade-lang.com/).) *gulp-nav* can handle [vinyl file objects][vfo] 
+with [stream][stream] `contents` and with [buffer][buffer] `contents`.
 
 Imagine we have some source files in a directory hierarchy:
 ```
@@ -109,5 +110,7 @@ overridden via the `targets` option.
 [david-dep-img]: https://david-dm.org/jessaustin/gulp-nav/dev-status.svg
 [npmjs-url]: https://www.npmjs.org/package/gulp-nav "npm Registry"
 [npmjs-img]: https://nodei.co/npm/gulp-nav.png?compact=true
+[stream]: http://nodejs.org/api/stream.html "Node Stream"
+[buffer]: http://nodejs.org/api/buffer.html "Node Buffer"
 [pipe]: http://nodejs.org/api/stream.html#stream_readable_pipe_destination_options "stream.Readable.pipe()"
 [vfo]: https://github.com/wearefractal/vinyl#file "Vinyl File Object"
