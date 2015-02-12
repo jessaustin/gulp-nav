@@ -1,5 +1,5 @@
 ###
- copyright (c) 2014 Jess Austin <jess.austin@gmail.com>, MIT license
+ copyright (c) 201{4,5} Jess Austin <jess.austin@gmail.com>, MIT license
 
  Node's built-in path module doesn't know how trailing slashes are used on the
  web. The replacement functions in this module know how to deal with trailing

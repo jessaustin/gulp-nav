@@ -1,4 +1,4 @@
-# copyright (c) 2014 Jess Austin <jess.austin@gmail.com>, MIT license
+# copyright (c) 201{4,5} Jess Austin <jess.austin@gmail.com>, MIT license
 
 gulp = require 'gulp'
 matter = require 'jade-var-matter'

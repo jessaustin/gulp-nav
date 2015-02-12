@@ -1,5 +1,5 @@
 ###
- copyright (c) 2014 Jess Austin <jess.austin@gmail.com>, MIT license
+ copyright (c) 201{4,5} Jess Austin <jess.austin@gmail.com>, MIT license
 
  gulp-nav is a gulp plugin to help build navigation elements. gulp-nav adds
  "nav" objects to vinyl file objects. nav objects contain titles, (relative)
