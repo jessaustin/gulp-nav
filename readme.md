@@ -12,7 +12,7 @@ elements implicitly from our file structure. The goal is to be useful with e.g.
 [Bootstrap .nav classes](http://getbootstrap.com/components/#nav) and your
 favorite templating system. (If you need templates, try
 [Jade](http://jade-lang.com/).) **gulp-nav** can handle
-[vinyl file objects][vfo] with [stream][stream] `contents` and with
+[Vinyl file objects][vfo] with [stream][stream] `contents` and with
 [buffer][buffer] `contents`.
 
 Imagine we have some source files in a directory hierarchy:
@@ -37,7 +37,7 @@ We know how to [`.pipe`][pipe] these through appropriate plugins and
 transforms, leaving us with a bunch of output pages in a similar directory
 hierarchy. What about links between those pages, however? We don't want to
 hardcode that stuff! While each file is piped through, an object stored as a
-property of the [vinyl file object][vfo], which stored object knows where other
+property of the [Vinyl file object][vfo], which stored object knows where other
 files are located and what they are called, could be really useful to template
 plugins. With that information, a template could be written to build navbars,
 breadcrumbs, or whatever we want on our generated page.
@@ -53,8 +53,11 @@ var gulp = require('gulp'),
 
 gulp.task('default', function() {
     return gulp.src('src/**/*.jade')
-         /* the jade file can define title or order; put those at file.data */
-        .pipe(data(function(file) { return matter(String(file.contents)); }))
+         // gulp-nav will use title or order properties if they are included in
+         // file.data, but that is completely optional
+        .pipe(data(function(file) {
+            return matter(String(file.contents));
+        }))
         .pipe(nav())
         .pipe(jade())
         .pipe(gulp.dest('dist'));
