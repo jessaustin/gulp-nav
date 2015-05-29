@@ -6,7 +6,11 @@
     "gulpplugin",
     "nav",
     "directory",
-    "hierarchy"
+    "hierarchy",
+    "sitemap",
+    "pagetree",
+    "breadcrumb",
+    "tree"
   ],
   "author": "Jess Austin <jess.austin@gmail.com>",
   "license": "MIT",

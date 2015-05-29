@@ -110,7 +110,7 @@ overridden via the `targets` option.
 [cover-img]: https://coveralls.io/repos/jessaustin/gulp-nav/badge.png?branch=master
 [david-url]: https://david-dm.org/jessaustin/gulp-nav "David"
 [david-img]: https://david-dm.org/jessaustin/gulp-nav.svg
-[david-dep-url]: https://david-dm.org/jessaustin/gulp-nav#info=devDependencies "David for dev dependencies"
+[david-dep-url]: https://david-dm.org/jessaustin/gulp-nav#info=devDependencies "David for dev"
 [david-dep-img]: https://david-dm.org/jessaustin/gulp-nav/dev-status.svg
 [npmjs-url]: https://www.npmjs.org/package/gulp-nav "npm Registry"
 [npmjs-img]: https://nodei.co/npm/gulp-nav.png?compact=true
