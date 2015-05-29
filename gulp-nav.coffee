@@ -113,6 +113,7 @@ module.exports = ({sources, targets, titles, orders, skips, hrefExtension,
 # properties are used because the structure is circular so we need some
 # laziness.
 navInContext = (nav, context, root) ->
+  postFix = if context[-1..][0][-1..] in ['/', '.'] then '..' else '.'
   Object.defineProperties
     title: nav.title
     # how you get here from there, but only if here is an actual place
@@ -122,7 +123,6 @@ navInContext = (nav, context, root) ->
     parent:
       enumerable: yes             # these properties should be easy to find
       get: ->                     # they're accessors because we need lazy eval
-        postFix = if context[-1..][0][-1..] in ['/', '.'] then '..' else '.'
         navInContext nav.parent, context.concat postFix
     children:
       enumerable: yes
