@@ -22,9 +22,6 @@
 through = require 'through2'
 {relative, resolve} = require './web-path'
 
-# XXX could these be somewhere else?
-root = rootName = null
-
 module.exports = ({sources, targets, titles, orders, skips, hrefExtension,
   demoteTopIndex}={}) ->
     # defaults -- the first five are just arrays of property names
@@ -50,6 +47,7 @@ module.exports = ({sources, targets, titles, orders, skips, hrefExtension,
       exists: no
       title: null
     orderGen = 9999
+    root = {}
 
     through.obj (file, encoding, transformCallback) ->
       # if vinyl objects have different properties, take first that exists
@@ -86,7 +84,7 @@ module.exports = ({sources, targets, titles, orders, skips, hrefExtension,
       current.title = title ? current.title # overwrite defaults with non-nulls
       current.order = order ? current.order
       # use leaf to make the nav object
-      nav = navInContext current, [path]
+      nav = navInContext current, [path], root
       # set properties of vinyl object XXX does this need error handling?
       for target in targets
         obj = file
@@ -98,13 +96,13 @@ module.exports = ({sources, targets, titles, orders, skips, hrefExtension,
       transformCallback()
     , (flushCallback) ->                   # (still in the call to through.obj)
       for name, child of navTree.children                    # there's only one
-        root = child
-        rootName = name
+        root.obj = child
+        root.name = name
       if demoteTopIndex       # top-level index becomes sibling of its children
-        for name, child of root.children
-          navTree.children[resolve rootName, name] = child
+        for name, child of root.obj.children
+          navTree.children[resolve root.name, name] = child
           child.parent = navTree
-        root.children = {}
+        root.obj.children = {}
       # ...and now we've seen them all
       @push file for file in files
       flushCallback()
@@ -114,7 +112,7 @@ module.exports = ({sources, targets, titles, orders, skips, hrefExtension,
 # it is exposed, so that it can expose accurate link information. Accessor
 # properties are used because the structure is circular so we need some
 # laziness.
-navInContext = (nav, context) ->
+navInContext = (nav, context, root) ->
   Object.defineProperties
     title: nav.title
     # how you get here from there, but only if here is an actual place
@@ -139,4 +137,4 @@ navInContext = (nav, context) ->
     root:
       enumerable: yes
       get: ->
-        navInContext root, context.concat rootName
+        navInContext root.obj, context.concat root.name
