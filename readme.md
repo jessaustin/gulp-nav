@@ -53,8 +53,8 @@ var gulp = require('gulp'),
 
 gulp.task('default', function() {
     return gulp.src('src/**/*.jade')
-         // gulp-nav will use title or order properties if they are included in
-         // file.data, but that is completely optional
+        // gulp-nav will use title or order properties if they are included
+        // in file.data, but that is completely optional
         .pipe(data(function(file) {
             return matter(String(file.contents));
         }))
