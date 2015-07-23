@@ -104,6 +104,9 @@ API"](https://github.com/colynb/gulp-data#note-to-gulp-plugin-authors))
 properties of the [file object][vfo], although either or both of these may be
 overridden via the `targets` option.
 
+**gulp-nav** is distributed under the [MIT
+license](http://opensource.org/licenses/MIT).
+
 [travis-url]: https://travis-ci.org/jessaustin/gulp-nav "Travis"
 [travis-img]: https://travis-ci.org/jessaustin/gulp-nav.svg?branch=master
 [cover-url]: https://coveralls.io/r/jessaustin/gulp-nav?branch=master "Coveralls"
