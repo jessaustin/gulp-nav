@@ -5,4 +5,4 @@ node_js:
   - "0.10"
   - "iojs"
 after_success:
-  - ./node_modules/.bin/coveralls < coverage/lcov.info
+  - ./node_modules/.bin/coveralls < ./coverage/lcov.info
