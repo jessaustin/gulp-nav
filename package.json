@@ -23,8 +23,10 @@
     "through2": ">=0.5"
   },
   "devDependencies": {
+    "coffee-coverage": ">=0.6",
     "coffee-script": ">=1.7",
     "coveralls": ">=2.11",
+    "faucet": ">=0.0.1",
     "gulp": ">=3.8",
     "gulp-connect": ">=2",
     "gulp-data": ">=1",
@@ -41,8 +43,8 @@
     "prepublish": "coffee --compile --map gulp-nav.coffee web-path.coffee",
     "postpublish": "rm *.js *.js.map 2> /dev/null || true",
     "start": "gulp",
-    "pretest": "npm run-script prepublish",
-    "test": "istanbul cover gulp test",
-    "posttest": "coveralls < coverage/lcov.info 2> /dev/null ; npm run-script postpublish"
+    "pretest": "coffeeCoverage --inst istanbul --exclude gulpfile.coffee,node_modules . .",
+    "test": "istanbul cover --print none gulp test | faucet",
+    "posttest": "istanbul report text-summary && npm run-script postpublish"
   }
 }
