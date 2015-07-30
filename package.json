@@ -45,6 +45,6 @@
     "start": "gulp",
     "pretest": "coffeeCoverage --inst istanbul --exclude gulpfile.coffee,node_modules . .",
     "test": "istanbul cover --print none gulp test | faucet",
-    "posttest": "istanbul report text-summary && npm run-script postpublish"
+    "posttest": "istanbul report text-summary"
   }
 }
