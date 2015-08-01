@@ -116,7 +116,7 @@ license](http://opensource.org/licenses/MIT).
 [david-dep-url]: https://david-dm.org/jessaustin/gulp-nav#info=devDependencies "David for dev"
 [david-dep-img]: https://david-dm.org/jessaustin/gulp-nav/dev-status.svg
 [npmjs-url]: https://www.npmjs.org/package/gulp-nav "npm Registry"
-[npmjs-img]: //badge.fury.io/js/gulp-nav.svg
+[npmjs-img]: https://badge.fury.io/js/gulp-nav.svg
 [stream]: http://nodejs.org/api/stream.html "Node Stream"
 [buffer]: http://nodejs.org/api/buffer.html "Node Buffer"
 [pipe]: http://nodejs.org/api/stream.html#stream_readable_pipe_destination_options "stream.Readable.pipe()"
