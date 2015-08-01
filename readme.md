@@ -1,11 +1,11 @@
 gulp-nav
 ========
 
+[![NPM][npmjs-img]][npmjs-url]
 [![Build Status][travis-img]][travis-url]
 [![Coverage Status][cover-img]][cover-url]
 [![Dependency Status][david-img]][david-url]
 [![devDependency Status][david-dep-img]][david-dep-url]
-[![NPM][npmjs-img]][npmjs-url]
 
 A [gulp](http://gulpjs.com/) plugin to help build navigation or breadcrumb
 elements implicitly from our file structure. The goal is to be useful with e.g.
@@ -116,7 +116,7 @@ license](http://opensource.org/licenses/MIT).
 [david-dep-url]: https://david-dm.org/jessaustin/gulp-nav#info=devDependencies "David for dev"
 [david-dep-img]: https://david-dm.org/jessaustin/gulp-nav/dev-status.svg
 [npmjs-url]: https://www.npmjs.org/package/gulp-nav "npm Registry"
-[npmjs-img]: https://nodei.co/npm/gulp-nav.png?compact=true
+[npmjs-img]: //badge.fury.io/js/gulp-nav.svg
 [stream]: http://nodejs.org/api/stream.html "Node Stream"
 [buffer]: http://nodejs.org/api/buffer.html "Node Buffer"
 [pipe]: http://nodejs.org/api/stream.html#stream_readable_pipe_destination_options "stream.Readable.pipe()"
