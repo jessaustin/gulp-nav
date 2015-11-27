@@ -104,6 +104,7 @@ module.exports = ({sources, targets, titles, orders, skips, hrefExtension,
           child.parent = navTree
         root.obj.children = {}
       # ...and now we've seen them all
+      # XXX should put debug() call here
       @push file for file in files
       flushCallback()
 
