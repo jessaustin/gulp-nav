@@ -4,8 +4,7 @@ gulp = require 'gulp'
 matter = require 'jade-var-matter'
 through = require 'through2'
 test = require 'tape'
-{connect, data, filter, jade} = (require 'gulp-load-plugins')()
-stream = require 'gulp-stream'
+{connect, data, filter, jade, stream} = (require 'gulp-load-plugins')()
 
 processBegin = ->
   nav = require './gulp-nav'  # convenient during development to wait until now
