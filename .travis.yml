@@ -6,4 +6,4 @@ node_js:
   - "0.12"
   - "iojs"
 after_success:
-  - ./node_modules/.bin/coveralls < coverage/lcov.info
+  - ./node_modules/.bin/remap-istanbul --input coverage/coverage.json --type lcovonly | ./node_modules/.bin/coveralls
