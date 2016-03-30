@@ -23,7 +23,6 @@
     "through2": ">=0.5"
   },
   "devDependencies": {
-    "coffee-coverage": ">=0.6",
     "coffee-script": ">=1.7",
     "coveralls": ">=2.11",
     "faucet": ">=0.0.1",
@@ -36,6 +35,7 @@
     "gulp-stream": ">=0.0.2",
     "istanbul": ">=0.3",
     "jade-var-matter": ">=0",
+    "remap-istanbul": ">=0.5",
     "tape": ">=2.14"
   },
   "main": "gulp-nav.js",
