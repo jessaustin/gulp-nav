@@ -26,7 +26,7 @@ gulp.task 'test', ->
   runTest 'Stream', processBegin().pipe stream()
 
 runTest = (label, src) ->
-  src.pipe filter 'latin/b.jade'
+  src.pipe filter '*/latin/b.jade'
     .pipe through.obj (file) ->
       titleMsg = 'Nav should have this title.'
       hrefMsg = 'Nav should have this href.'
