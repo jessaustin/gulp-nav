@@ -1,6 +1,6 @@
 {
   "name": "gulp-nav",
-  "version": "0.1.15",
+  "version": "0.2.0",
   "description": "gulp plugin to help build navigation elements",
   "keywords": [
     "gulpplugin",
@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/jessaustin/gulp-nav",
   "dependencies": {
+    "slash": "1.0.0",
     "through2": ">=0.5"
   },
   "devDependencies": {
