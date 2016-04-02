@@ -42,11 +42,13 @@ runTest = (label, src) ->
         assert.is nav.parent.title, 'Latin', titleMsg
         assert.is nav.parent.href, '.', hrefMsg
         assert.notOk nav.parent.active, notActiveMsg
+        assert.is nav.root.href, nav.parent.root.href, hrefMsg
         assert.end()
       test "Grandparent-#{label}", (assert) ->
         assert.is nav.parent.parent.title, 'Home', titleMsg
         assert.is nav.parent.parent.href, '..', hrefMsg
-        assert.notOk nav.root.active, notActiveMsg
+        assert.notOk nav.parent.parent.active, notActiveMsg
+        assert.is nav.root.href, nav.parent.parent.root.href, hrefMsg
         assert.end()
       test "Siblings-#{label}", (assert) ->
         for item, i in [
@@ -67,12 +69,14 @@ runTest = (label, src) ->
           assert.is current.href, item.href, hrefMsg
           assert.is current.active, item.active,
             if item.active then activeMsg else notActiveMsg
+          assert.is nav.root.href, current.root.href, hrefMsg
         assert.end()
       test "Children-#{label}", (assert) ->
         assert.notOk nav.children.length, 'Nav should have no children.'
         assert.end()
       test "Root-#{label}", (assert) ->
+        assert.plan 4     # don't know why, but otherwise tests exit w/o ending
         assert.is nav.root.title, 'Home', titleMsg
         assert.is nav.root.href, '..', hrefMsg
+        assert.is nav.root.href, nav.root.root.href, hrefMsg
         assert.notOk nav.root.active, notActiveMsg
-        assert.end()
