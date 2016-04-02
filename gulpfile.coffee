@@ -9,8 +9,8 @@ test = require 'tape'
 processBegin = ->
   nav = require './gulp-nav'  # convenient during development to wait until now
   gulp.src 'test/**/*.jade'
-    .pipe data (file) ->
-      matter String file.contents
+    .pipe data ({ contents }) ->
+      matter String contents
     .pipe nav()
 
 gulp.task 'build', ->
@@ -27,29 +27,28 @@ gulp.task 'test', ->
 
 runTest = (label, src) ->
   src.pipe filter '*/latin/b.jade'
-    .pipe through.obj (file) ->
+    .pipe through.obj ({ nav }) ->
       titleMsg = 'Nav should have this title.'
       hrefMsg = 'Nav should have this href.'
       activeMsg = 'Nav should be active.'
       notActiveMsg = 'Nav shouldn\'t be active.'
 
       test "Self-#{label}", (assert) ->
-        assert.plan 3
-        assert.is file.nav.title, 'B', titleMsg
-        assert.is file.nav.href, 'b.html', hrefMsg
-        assert.ok file.nav.active, activeMsg
+        assert.is nav.title, 'B', titleMsg
+        assert.is nav.href, 'b.html', hrefMsg
+        assert.ok nav.active, activeMsg
+        assert.end()
       test "Parent-#{label}", (assert) ->
-        assert.plan 3
-        assert.is file.nav.parent.title, 'Latin', titleMsg
-        assert.is file.nav.parent.href, '.', hrefMsg
-        assert.notOk file.nav.parent.active, notActiveMsg
+        assert.is nav.parent.title, 'Latin', titleMsg
+        assert.is nav.parent.href, '.', hrefMsg
+        assert.notOk nav.parent.active, notActiveMsg
+        assert.end()
       test "Grandparent-#{label}", (assert) ->
-        assert.plan 3
-        assert.is file.nav.parent.parent.title, 'Home', titleMsg
-        assert.is file.nav.parent.parent.href, '..', hrefMsg
-        assert.notOk file.nav.root.active, notActiveMsg
+        assert.is nav.parent.parent.title, 'Home', titleMsg
+        assert.is nav.parent.parent.href, '..', hrefMsg
+        assert.notOk nav.root.active, notActiveMsg
+        assert.end()
       test "Siblings-#{label}", (assert) ->
-        assert.plan 9
         for item, i in [
           title: 'A'
           href: 'letter-a.html'
@@ -63,16 +62,17 @@ runTest = (label, src) ->
           href: 'c.html'
           active: no
         ]
-          current = file.nav.siblings[i]
+          current = nav.siblings[i]
           assert.is current.title, item.title, titleMsg
           assert.is current.href, item.href, hrefMsg
           assert.is current.active, item.active,
             if item.active then activeMsg else notActiveMsg
+        assert.end()
       test "Children-#{label}", (assert) ->
-        assert.plan 1
-        assert.notOk file.nav.children.length, 'Nav should have no children.'
+        assert.notOk nav.children.length, 'Nav should have no children.'
+        assert.end()
       test "Root-#{label}", (assert) ->
-        assert.plan 3
-        assert.is file.nav.root.title, 'Home', titleMsg
-        assert.is file.nav.root.href, '..', hrefMsg
-        assert.notOk file.nav.root.active, notActiveMsg
+        assert.is nav.root.title, 'Home', titleMsg
+        assert.is nav.root.href, '..', hrefMsg
+        assert.notOk nav.root.active, notActiveMsg
+        assert.end()
