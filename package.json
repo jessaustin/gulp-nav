@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/jessaustin/gulp-nav",
   "dependencies": {
+    "slash": ">=1",
     "through2": ">=0.5"
   },
   "devDependencies": {

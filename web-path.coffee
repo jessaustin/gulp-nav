@@ -23,7 +23,7 @@ trimBackToSlash = (str) ->    # this would be a one-liner if we had look-behind
 
 module.exports =
   resolve: (from..., to) ->
-    (path.resolve (trimBackToSlash f for f in from)..., to) +
+    (path.posix.resolve (trimBackToSlash f for f in from)..., to) +
     if to.match /.\/\.?\.?$/ then '/' else ''
   relative: (from, to) ->
-    (path.relative (trimBackToSlash from), to) or '.'
+    (path.posix.relative (trimBackToSlash from), to) or '.'
