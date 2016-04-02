@@ -61,7 +61,7 @@ module.exports = ({sources, targets, titles, orders, skips, hrefExtension,
         if skip of source and source[skip]
           return transformCallback null, file
       # normalize the path and break it into its constituent elements
-      path = resolve '/', slash(file.relative)
+      path = resolve '/', slash file.relative
         .replace /index\.[^/]+$/, ''          # index identified with directory
         .replace /\.[^./]+$/, '.' + hrefExtension     # e.g. '.jade' -> '.html'
       # find the right spot for the new resource
