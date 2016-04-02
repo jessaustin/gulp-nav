@@ -32,7 +32,6 @@ runTest = (label, src) ->
       hrefMsg = 'Nav should have this href.'
       activeMsg = 'Nav should be active.'
       notActiveMsg = 'Nav shouldn\'t be active.'
-
       test "Self-#{label}", (assert) ->
         assert.is nav.title, 'B', titleMsg
         assert.is nav.href, 'b.html', hrefMsg
@@ -80,3 +79,8 @@ runTest = (label, src) ->
         assert.is nav.root.href, '..', hrefMsg
         assert.is nav.root.href, nav.root.root.href, hrefMsg
         assert.notOk nav.root.active, notActiveMsg
+      test "No-Index", (assert) ->
+        for uncle in nav.parent.siblings
+          if uncle.title is 'Greek'
+            assert.notOk uncle.href?, "Nav without index shouldn't have href"
+        assert.end()
