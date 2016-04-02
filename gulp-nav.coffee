@@ -138,11 +138,11 @@ navInContext = (nav, context, root) ->
     parent:
       enumerable: yes             # these properties should be easy to find
       get: ->                     # they're accessors because we need lazy eval
-        navInContext nav.parent, context.concat postFix
+        navInContext nav.parent, context.concat(postFix), root
     children:
       enumerable: yes
       get: ->
-        (navInContext child, context.concat name for [child, name] in (
+        (navInContext child, context.concat(name), root for [child, name] in (
           [child, name] for name, child of nav.children)
             .sort ([a, ...], [b, ...]) -> a.order - b.order)
     siblings:
@@ -152,4 +152,4 @@ navInContext = (nav, context, root) ->
     root:
       enumerable: yes
       get: ->
-        navInContext root.obj, context.concat root.name
+        navInContext root.obj, context.concat(root.name), root
