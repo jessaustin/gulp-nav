@@ -36,22 +36,16 @@ relative = (start, finish) ->
 resolve = (parts...) ->
   parts.reduce url.resolve
 
-module.exports = ({sources, targets, titles, orders, skips, hrefExtension,
-  demoteTopIndex}={}) ->
+module.exports = ({ titles=['short_title', 'title'], skips='skipThis',
+  orders='order', sources=['data', 'frontMatter'], targets=['nav', 'data.nav'],
+  hrefExtension='html', demoteTopIndex=no }={}) ->
     # defaults -- the first five are just arrays of property names
-    sources ?= ['data', 'frontMatter']
-    targets ?= ['nav', 'data.nav']
-    titles  ?= ['short_title', 'title']
-    orders  ?= 'order'
-    skips   ?= 'skipThis'
-    hrefExtension ?= 'html'
-    demoteTopIndex ?= no
     # single options don't have to come wrapped in an Array
+    titles  = [ titles ]  unless Array.isArray titles
+    skips   = [ skips ]   unless Array.isArray skips
+    orders  = [ orders ]  unless Array.isArray orders
     sources = [ sources ] unless Array.isArray sources
     targets = [ targets ] unless Array.isArray targets
-    titles  = [ titles ]  unless Array.isArray titles
-    orders  = [ orders ]  unless Array.isArray orders
-    skips   = [ skips ]   unless Array.isArray skips
 
     # scaffolding for crawling the directory structure
     files = []
