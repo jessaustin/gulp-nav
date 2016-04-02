@@ -20,7 +20,6 @@
   },
   "homepage": "https://github.com/jessaustin/gulp-nav",
   "dependencies": {
-    "slash": ">=1",
     "through2": ">=0.5"
   },
   "devDependencies": {
@@ -41,11 +40,12 @@
   },
   "main": "gulp-nav.js",
   "scripts": {
-    "prepublish": "coffee --compile --map gulp-nav.coffee web-path.coffee",
-    "postpublish": "rm *.js *.js.map 2> /dev/null || true",
+    "clean": "rm -r coverage *.js *.js.map 2> /dev/null || true",
     "start": "gulp",
-    "pretest": "npm run prepublish",
+    "pretest": "coffee --compile --map gulp-nav.coffee",
     "test": "istanbul cover --print none gulp test | faucet && istanbul report text-summary",
-    "posttest": "remap-istanbul --input coverage/coverage.json --output coverage/coffee --type html"
+    "posttest": "remap-istanbul --input coverage/coverage.json --output coverage/coffee --type html",
+    "prepublish": "npm run pretest",
+    "postpublish": "npm run clean"
   }
 }

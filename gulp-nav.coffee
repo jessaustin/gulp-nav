@@ -19,9 +19,22 @@
 ###
 
 {basename} = require 'path'
+url = require 'url'
 through = require 'through2'
-slash = require 'slash'
-{relative, resolve} = require './web-path'
+
+relative = (start, finish) ->
+  start = start.split '/'
+  finish = finish.split '/'
+  finish.shift() while start.length and start.shift() is last = finish[0]
+  finish = last unless finish.length
+  ('..' for s in start)                               # ascend out of remaining
+    .concat finish                                    # descend into remaining
+    .join '/'
+    .replace /\.\/$/, '.'
+    .replace /^$/, '.'
+
+resolve = (parts...) ->
+  parts.reduce url.resolve
 
 module.exports = ({sources, targets, titles, orders, skips, hrefExtension,
   demoteTopIndex}={}) ->
@@ -61,7 +74,7 @@ module.exports = ({sources, targets, titles, orders, skips, hrefExtension,
         if skip of source and source[skip]
           return transformCallback null, file
       # normalize the path and break it into its constituent elements
-      path = resolve '/', slash file.relative
+      path = resolve '/', file.relative.replace /\\/g, '/'
         .replace /index\.[^/]+$/, ''          # index identified with directory
         .replace /\.[^./]+$/, '.' + hrefExtension     # e.g. '.jade' -> '.html'
       # find the right spot for the new resource
