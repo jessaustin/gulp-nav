@@ -30,8 +30,7 @@ relative = (start, finish) ->
   ('..' for s in start)                               # ascend out of remaining
     .concat finish                                    # descend into remaining
     .join '/'
-    .replace /\.\/$/, '.'
-    .replace /^$/, '.'
+    .replace /(^|(\.\/))$/, '.'
 
 resolve = (parts...) ->
   parts.reduce url.resolve
