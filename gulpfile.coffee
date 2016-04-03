@@ -11,7 +11,7 @@ start = ->
   gulp.src 'test/**/*.jade'
     .pipe data ({ contents }) ->
       matter String contents
-    .pipe nav()
+    .pipe nav orders: ['order', 'ord']
 
 gulp.task 'build', ->
   start()

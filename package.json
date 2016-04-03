@@ -48,6 +48,7 @@
     "pretest": "coffee --compile --map gulp-nav.coffee",
     "test": "istanbul cover --print none gulp test | faucet",
     "posttest": "remap-istanbul --input coverage/coverage.json --output $npm_package_config_rmpfile --type text-summary && cat $npm_package_config_rmpfile && rm $npm_package_config_rmpfile && echo",
+    "coverage": "remap-istanbul --input coverage/coverage.json --output coverage/coffee --type html",
     "prepublish": "npm run pretest",
     "postpublish": "npm run clean"
   }
