@@ -22,13 +22,12 @@
 url = require 'url'
 through = require 'through2'
 
-relative = (start, finish) ->
-  start = start.split '/'
-  finish = finish.split '/'
-  finish.shift() while start.length and start.shift() is last = finish[0]
-  finish = last unless finish.length
-  ('..' for _ in start)                               # ascend out of remaining
-    .concat finish                                    # descend into remaining
+relative = (source, target) ->
+  source = source.split '/'
+  target = target.split '/'
+  target.shift() while source.length and source.shift() is last = target[0]
+  ('..' for _ in source)                              # ascend out of remaining
+    .concat if target.length then target else last    # descend into remaining
     .join '/'
     .replace /(^|\.\/)$/, '.'
 
