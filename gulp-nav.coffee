@@ -27,7 +27,7 @@ relative = (start, finish) ->
   finish = finish.split '/'
   finish.shift() while start.length and start.shift() is last = finish[0]
   finish = last unless finish.length
-  ('..' for s in start)                               # ascend out of remaining
+  ('..' for _ in start)                               # ascend out of remaining
     .concat finish                                    # descend into remaining
     .join '/'
     .replace /(^|\.\/)$/, '.'
