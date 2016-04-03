@@ -96,7 +96,7 @@ directory.
 There are a bunch of options we can pass into the plugin (in an object), which
 are currently undocumented because they have sensible defaults and they might
 change. If you want to know all about the options then [read the
-source](gulp-nav.coffee#L37-L39).
+source](gulp-nav.coffee#L40-L42).
 
 One current default is to expose the nav data at both the `nav` and `data.nav`
 (the latter for use with the new ["data

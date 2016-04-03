@@ -22,6 +22,8 @@
 url = require 'url'
 through = require 'through2'
 
+# relative() and resolve() are just like the path functions, except trailing
+# slashes are significant since we're dealing with URLs
 relative = (source, target) ->
   source = source.split '/'
   target = target.split '/'
@@ -31,6 +33,7 @@ relative = (source, target) ->
     .join '/'
     .replace /(^|\.\/)$/, '.'
 
+# allow url.resolve() to take more than two args
 resolve = (parts...) ->
   parts.reduce url.resolve
 
