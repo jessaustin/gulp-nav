@@ -1,4 +1,4 @@
-# copyright (c) 201{4,5} Jess Austin <jess.austin@gmail.com>, MIT license
+# copyright © 201{4,5,6} Jess Austin <jess.austin@gmail.com>, MIT license
 
 gulp = require 'gulp'
 matter = require 'jade-var-matter'
@@ -6,7 +6,7 @@ through = require 'through2'
 test = require 'tape'
 {connect, data, filter, jade, stream} = (require 'gulp-load-plugins')()
 
-processBegin = ->
+start = ->
   nav = require './gulp-nav'  # convenient during development to wait until now
   gulp.src 'test/**/*.jade'
     .pipe data ({ contents }) ->
@@ -14,7 +14,7 @@ processBegin = ->
     .pipe nav()
 
 gulp.task 'build', ->
-  processBegin()
+  start()
     .pipe jade pretty: true
     .pipe gulp.dest 'test/dist'
 
@@ -22,8 +22,8 @@ gulp.task 'default', ['build'], ->
   connect.server root: 'test/dist'
 
 gulp.task 'test', ->
-  runTest 'Buffer', processBegin()
-  runTest 'Stream', processBegin().pipe stream()
+  runTest 'Buffer', start()
+  runTest 'Stream', start().pipe stream()
 
 runTest = (label, src) ->
   src.pipe filter '*/latin/b.jade'

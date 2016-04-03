@@ -1,10 +1,10 @@
 ###
- copyright (c) 201{4,5} Jess Austin <jess.austin@gmail.com>, MIT license
+ copyright © 201{4,5,6} Jess Austin <jess.austin@gmail.com>, MIT license
 
  gulp-nav is a gulp plugin to help build navigation elements. gulp-nav adds
  "nav" objects to vinyl file objects. nav objects contain titles, (relative)
  href links, active flags, parents, children, and siblings. The last two
- properties are arrays, which may optionally be ordered. For other than default
+ properties are arrays, which optionally may be ordered. For other than default
  behavior, call the exported function with an object that defines one or more
  of the following options (the first five can be a single property name, or an
  array of property names):
@@ -36,16 +36,15 @@ relative = (start, finish) ->
 resolve = (parts...) ->
   parts.reduce url.resolve
 
-module.exports = ({ titles=['short_title', 'title'], skips='skipThis',
-  orders='order', sources=['data', 'frontMatter'], targets=['nav', 'data.nav'],
-  hrefExtension='html', demoteTopIndex=no }={}) ->
-    # defaults -- the first five are just arrays of property names
+module.exports = ({ sources=['data', 'frontMatter'],
+  targets=['nav', 'data.nav'], titles=['short_title', 'title'], orders='order',
+  skips='skipThis', hrefExtension='html', demoteTopIndex=no }={}) ->
     # single options don't have to come wrapped in an Array
-    titles  = [ titles ]  unless Array.isArray titles
-    skips   = [ skips ]   unless Array.isArray skips
-    orders  = [ orders ]  unless Array.isArray orders
     sources = [ sources ] unless Array.isArray sources
     targets = [ targets ] unless Array.isArray targets
+    titles  = [ titles ]  unless Array.isArray titles
+    orders  = [ orders ]  unless Array.isArray orders
+    skips   = [ skips ]   unless Array.isArray skips
 
     # scaffolding for crawling the directory structure
     files = []
@@ -59,10 +58,10 @@ module.exports = ({ titles=['short_title', 'title'], skips='skipThis',
 
     through.obj (file, encoding, transformCallback) ->
       # if vinyl objects have different properties, take first that exists
-      source = (file[source] for source in sources).reduce (x, y) -> x ?= y
+      source = (file[source] for source in sources).reduce (x, y) -> x ? y
       source ?= file         # just look for properties on the vinyl obj itself
-      title = (source[title] for title in titles).reduce (x, y) -> x ?= y
-      order = (source[order] for order in orders).reduce (x, y) -> x ?= y
+      title = (source[title] for title in titles).reduce (x, y) -> x ? y
+      order = (source[order] for order in orders).reduce (x, y) -> x ? y
       # skip this file?
       for skip in skips
         if skip of source and source[skip]
@@ -79,6 +78,7 @@ module.exports = ({ titles=['short_title', 'title'], skips='skipThis',
           parent: current                      # in tree with missing elements
           children: {}
           exists: no                           # for directories without index
+          order: orderGen++
           title: basename element.replace /\/?index[^/]*$/, ''
             .toLowerCase()
             .replace /\.[^.]*$/, ''                    # remove extension
@@ -86,7 +86,6 @@ module.exports = ({ titles=['short_title', 'title'], skips='skipThis',
             .replace /\b\w/g, (first) ->
               first.toUpperCase()                      # capitalize each word
             .replace /^$/, '/'                         # root needs a title too
-          order: orderGen++
       # clean up the leaf
       current.exists = yes         # if we're here, this resource *does* exist!
       current.title = title ? current.title # overwrite defaults with non-nulls
