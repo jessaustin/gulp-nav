@@ -114,8 +114,8 @@ Special thanks to **Arlando Battle** for windows compatibility!
 
 [travis-url]: https://travis-ci.org/jessaustin/gulp-nav "Travis"
 [travis-img]: https://travis-ci.org/jessaustin/gulp-nav.svg?branch=master
-[cover-url]: https://coveralls.io/r/jessaustin/gulp-nav?branch=master "Coveralls"
-[cover-img]: https://coveralls.io/repos/jessaustin/gulp-nav/badge.svg?branch=master
+[cover-url]: https://codecov.io/github/jessaustin/gulp-nav?branch=master
+[cover-img]: https://codecov.io/github/jessaustin/gulp-nav/coverage.svg?branch=master
 [david-url]: https://david-dm.org/jessaustin/gulp-nav "David"
 [david-img]: https://david-dm.org/jessaustin/gulp-nav.svg
 [david-dep-url]: https://david-dm.org/jessaustin/gulp-nav#info=devDependencies "David for dev"
