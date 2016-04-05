@@ -23,6 +23,7 @@
     "through2": ">=0.5"
   },
   "devDependencies": {
+    "codecov": ">=1",
     "coffee-script": ">=1.7",
     "coveralls": ">=2.11",
     "faucet": ">=0.0.1",
