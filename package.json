@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "codecov": ">=1",
+    "codecov.io": "^0.1.6",
     "coffee-script": ">=1.7",
     "coveralls": ">=2.11",
     "faucet": ">=0.0.1",
