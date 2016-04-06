@@ -19,23 +19,7 @@
 ###
 
 {basename} = require 'path'
-url = require 'url'
 through = require 'through2'
-
-# relative() and resolve() are just like the path functions, except trailing
-# slashes are significant since we're dealing with URLs
-relative = (source, target) ->
-  source = source.split '/'
-  target = target.split '/'
-  target.shift() while source.length and source.shift() is last = target[0]
-  ('..' for _ in source)                              # ascend out of remaining
-    .concat if target.length then target else last    # descend into remaining
-    .join '/'
-    .replace /(^|\.\/)$/, '.'
-
-# allow url.resolve() to take more than two args
-resolve = (parts...) ->
-  parts.reduce url.resolve
 
 module.exports = ({ sources=['data', 'frontMatter'],
   targets=['nav', 'data.nav'], titles=['short_title', 'title'], orders='order',
@@ -59,10 +43,10 @@ module.exports = ({ sources=['data', 'frontMatter'],
 
     through.obj (file, encoding, transformCallback) ->
       # if vinyl objects have different properties, take first that exists
-      source = (file[source] for source in sources).reduce (x, y) -> x ? y
+      source = (file[source] for source in sources).reduce soak
       source ?= file         # just look for properties on the vinyl obj itself
-      title = (source[title] for title in titles).reduce (x, y) -> x ? y
-      order = (source[order] for order in orders).reduce (x, y) -> x ? y
+      title = (source[title] for title in titles).reduce soak
+      order = (source[order] for order in orders).reduce soak
       # skip this file?
       for skip in skips
         if skip of source and source[skip]
@@ -147,3 +131,22 @@ navInContext = (nav, context, root) ->
       enumerable: yes
       get: ->
         navInContext root.obj, context.concat(root.name), root
+
+# relative() and resolve() are just like the path functions, except trailing
+# slashes are significant since we're dealing with URLs
+relative = (source, target) ->
+  source = source.split '/'
+  target = target.split '/'
+  target.shift() while source.length and source.shift() is last = target[0]
+  ('..' for _ in source)                              # ascend out of remaining
+    .concat if target.length then target else last    # descend into remaining
+    .join '/'
+    .replace /(^|\.\/)$/, '.'
+
+url = require 'url'
+# allow url.resolve() to take more than two args
+resolve = (parts...) ->
+  parts.reduce url.resolve
+
+soak = (x, y) ->
+  x ? y
