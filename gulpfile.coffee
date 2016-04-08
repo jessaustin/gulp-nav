@@ -80,12 +80,12 @@ runTest = (label, src) ->
         assert.notOk nav.children.length, 'Nav should have no children.'
         assert.end()
       test "Root-#{label}", (assert) ->
-        assert.plan 5     # don't know why, but otherwise tests exit w/o ending
         assert.is nav.root.title, 'Home', titleMsg
         assert.is nav.root.href, '..', hrefMsg
         assert.is nav.root.href, nav.root.root.href, hrefMsg
         assert.ok nav.root.hasActiveDescendant, activeDescendant
         assert.notOk nav.root.active, notActiveMsg
+        assert.end()
       test "No-Index", (assert) ->
         assert.plan 1
         for uncle in nav.parent.siblings
