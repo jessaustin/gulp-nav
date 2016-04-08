@@ -45,6 +45,7 @@
   "scripts": {
     "clean": "rm -r coverage *.js *.js.map 2> /dev/null || true",
     "start": "gulp",
+    "windows_test": "gulp test | faucet",
     "pretest": "coffee --compile --map gulp-nav.coffee",
     "test": "istanbul cover --print none gulp test | faucet",
     "posttest": "remap-istanbul --input coverage/coverage.json --output $npm_package_config_rmpfile --type text-summary && cat $npm_package_config_rmpfile && rm $npm_package_config_rmpfile && echo",
