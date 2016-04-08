@@ -32,22 +32,27 @@ runTest = (label, src) ->
       hrefMsg = 'Nav should have this href.'
       activeMsg = 'Nav should be active.'
       notActiveMsg = 'Nav shouldn\'t be active.'
+      activeDescendant = 'Nav should have an active descendant.'
+      noActiveDescendants = 'Nav shouldn\'t have an active descendant.'
       test "Self-#{label}", (assert) ->
         assert.is nav.title, 'B', titleMsg
         assert.is nav.href, 'b.html', hrefMsg
         assert.ok nav.active, activeMsg
+        assert.notOk nav.hasActiveDescendant, noActiveDescendants
         assert.end()
       test "Parent-#{label}", (assert) ->
         assert.is nav.parent.title, 'Latin', titleMsg
         assert.is nav.parent.href, '.', hrefMsg
         assert.notOk nav.parent.active, notActiveMsg
         assert.is nav.root.href, nav.parent.root.href, hrefMsg
+        assert.ok nav.parent.hasActiveDescendant, activeDescendant
         assert.end()
       test "Grandparent-#{label}", (assert) ->
         assert.is nav.parent.parent.title, 'Home', titleMsg
         assert.is nav.parent.parent.href, '..', hrefMsg
         assert.notOk nav.parent.parent.active, notActiveMsg
         assert.is nav.root.href, nav.parent.parent.root.href, hrefMsg
+        assert.ok nav.parent.parent.hasActiveDescendant, activeDescendant
         assert.end()
       test "Siblings-#{label}", (assert) ->
         for item, i in [
@@ -69,15 +74,17 @@ runTest = (label, src) ->
           assert.is current.active, item.active,
             if item.active then activeMsg else notActiveMsg
           assert.is nav.root.href, current.root.href, hrefMsg
+          assert.notOk current.hasActiveDescendant, noActiveDescendants
         assert.end()
       test "Children-#{label}", (assert) ->
         assert.notOk nav.children.length, 'Nav should have no children.'
         assert.end()
       test "Root-#{label}", (assert) ->
-        assert.plan 4     # don't know why, but otherwise tests exit w/o ending
+        assert.plan 5     # don't know why, but otherwise tests exit w/o ending
         assert.is nav.root.title, 'Home', titleMsg
         assert.is nav.root.href, '..', hrefMsg
         assert.is nav.root.href, nav.root.root.href, hrefMsg
+        assert.ok nav.root.hasActiveDescendant, activeDescendant
         assert.notOk nav.root.active, notActiveMsg
       test "No-Index", (assert) ->
         for uncle in nav.parent.siblings
