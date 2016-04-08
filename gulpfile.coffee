@@ -87,7 +87,7 @@ runTest = (label, src) ->
         assert.notOk nav.root.active, notActiveMsg
         assert.end()
       test "No-Index", (assert) ->
+        assert.plan 1
         for uncle in nav.parent.siblings
           if uncle.title is 'Greek'
             assert.notOk uncle.href?, "Nav without index shouldn't have href"
-        assert.end()
