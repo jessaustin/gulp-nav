@@ -131,6 +131,11 @@ navInContext = (nav, context, root) ->
       enumerable: yes
       get: ->
         navInContext root.obj, context.concat(root.name), root
+    hasActiveDescendant:
+      enumerable: yes
+      get: ->
+        @children.some (child) ->
+          child.active or child.hasActiveDescendant
 
 # relative() and resolve() are just like the path functions, except trailing
 # slashes are significant since we're dealing with URLs
