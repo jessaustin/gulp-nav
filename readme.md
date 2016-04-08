@@ -87,6 +87,7 @@ The `nav` object referenced above has the following properties:
 | children | Array of `nav` objects representing this resource's children. Empty when this resource isn't a directory. |
 | siblings | Array of `nav` objects representing this resource's parent's children. Includes this resource. |
 | root     | `nav` object representing the ancestor of all streamed resources. |
+| hasActiveDescendant | Is a child (or child of child, etc.) of this resource active? |
 
 If you want `children` and `siblings` to be in a particular order, just have an
 `order` property defined on each [file object][vfo]. `order` should be a
